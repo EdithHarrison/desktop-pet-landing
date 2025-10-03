@@ -70,82 +70,88 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Download counter functionality - using localStorage with cross-device sync
+    // Download counter functionality - using a simple global counter service
     let downloadCount = 0;
     const downloadCountElement = document.getElementById('download-count');
     
-    // Use a more persistent storage key
-    const STORAGE_KEY = 'desktoppet_downloads_global_v2';
+    // Use a simple, reliable counter service
+    const COUNTER_SERVICE = 'https://api.countapi.xyz';
+    const COUNTER_NAMESPACE = 'desktoppet';
+    const COUNTER_KEY = 'downloads';
     
-    // Fetch download count from localStorage
-    function fetchDownloadCount() {
-        console.log('Loading download count from localStorage...');
+    // Fetch download count from global service
+    async function fetchDownloadCount() {
+        console.log('Loading download count from global service...');
         
-        // Get count from localStorage
-        downloadCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+        try {
+            const response = await fetch(`${COUNTER_SERVICE}/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`);
+            
+            if (response.ok) {
+                const data = await response.json();
+                downloadCount = data.value || 0;
+                console.log('Download count loaded from global service:', downloadCount);
+            } else {
+                throw new Error(`Service error: ${response.status}`);
+            }
+        } catch (error) {
+            console.log('Global service failed, trying alternative...', error);
+            
+            // Try alternative service
+            try {
+                const response = await fetch(`${COUNTER_SERVICE}/get/${COUNTER_NAMESPACE}/total`);
+                if (response.ok) {
+                    const data = await response.json();
+                    downloadCount = data.value || 0;
+                    console.log('Download count loaded from alternative service:', downloadCount);
+                } else {
+                    throw new Error('Alternative service also failed');
+                }
+            } catch (altError) {
+                console.log('All services failed, using localStorage fallback');
+                downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
+            }
+        }
         
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
-        }
-        
-        console.log('Download count loaded:', downloadCount);
-        
-        // Listen for storage changes from other tabs/windows
-        window.addEventListener('storage', function(e) {
-            if (e.key === STORAGE_KEY) {
-                downloadCount = parseInt(e.newValue || '0');
-                if (downloadCountElement) {
-                    downloadCountElement.textContent = downloadCount.toLocaleString();
-                }
-                console.log('Download count synced from other tab:', downloadCount);
-            }
-        });
-        
-        // Try to sync with a simple external service as backup
-        syncWithExternalService();
-    }
-    
-    // Try to sync with external service (optional)
-    async function syncWithExternalService() {
-        try {
-            // Try to get count from a simple text file on GitHub (read-only)
-            const response = await fetch('https://raw.githubusercontent.com/EdithHarrison/desktop-pet-landing/main/download-count.txt');
-            if (response.ok) {
-                const text = await response.text();
-                const externalCount = parseInt(text.trim()) || 0;
-                if (externalCount > downloadCount) {
-                    downloadCount = externalCount;
-                    localStorage.setItem(STORAGE_KEY, downloadCount.toString());
-                    if (downloadCountElement) {
-                        downloadCountElement.textContent = downloadCount.toLocaleString();
-                    }
-                    console.log('Synced with external count:', downloadCount);
-                }
-            }
-        } catch (error) {
-            console.log('External sync failed, using local count:', error);
         }
     }
     
     function incrementDownloadCount() {
         console.log('Incrementing download count...');
         
-        // Increment local count
-        downloadCount++;
-        localStorage.setItem(STORAGE_KEY, downloadCount.toString());
-        
-        if (downloadCountElement) {
-            downloadCountElement.textContent = downloadCount.toLocaleString();
-        }
-        
-        console.log('Download count incremented to:', downloadCount);
-        
-        // Notify other tabs/windows
-        window.dispatchEvent(new StorageEvent('storage', {
-            key: STORAGE_KEY,
-            newValue: downloadCount.toString(),
-            oldValue: (downloadCount - 1).toString()
-        }));
+        // Try to increment on global service
+        fetch(`${COUNTER_SERVICE}/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`)
+            .then(response => response.json())
+            .then(data => {
+                downloadCount = data.value || downloadCount + 1;
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = downloadCount.toLocaleString();
+                }
+                console.log('Download count incremented globally:', downloadCount);
+            })
+            .catch(error => {
+                console.log('Global increment failed, trying alternative...', error);
+                
+                // Try alternative service
+                fetch(`${COUNTER_SERVICE}/hit/${COUNTER_NAMESPACE}/total`)
+                    .then(response => response.json())
+                    .then(data => {
+                        downloadCount = data.value || downloadCount + 1;
+                        if (downloadCountElement) {
+                            downloadCountElement.textContent = downloadCount.toLocaleString();
+                        }
+                        console.log('Download count incremented via alternative:', downloadCount);
+                    })
+                    .catch(altError => {
+                        console.log('All services failed, using localStorage fallback');
+                        downloadCount++;
+                        localStorage.setItem('downloadCount', downloadCount.toString());
+                        if (downloadCountElement) {
+                            downloadCountElement.textContent = downloadCount.toLocaleString();
+                        }
+                    });
+            });
     }
 
     // Load initial count
@@ -173,23 +179,40 @@ document.addEventListener('DOMContentLoaded', function() {
     window.resetDownloadCounter = function() {
         console.log('Resetting download counter...');
         
-        // Reset local counter
-        downloadCount = 0;
-        localStorage.setItem(STORAGE_KEY, '0');
-        
-        if (downloadCountElement) {
-            downloadCountElement.textContent = '0';
-        }
-        
-        // Notify other tabs/windows
-        window.dispatchEvent(new StorageEvent('storage', {
-            key: STORAGE_KEY,
-            newValue: '0',
-            oldValue: downloadCount.toString()
-        }));
-        
-        console.log('Counter reset to 0');
-        alert('Counter reset to 0! Now test on both devices.');
+        // Try to reset on global service
+        fetch(`${COUNTER_SERVICE}/set/${COUNTER_NAMESPACE}/${COUNTER_KEY}?value=0`)
+            .then(response => response.json())
+            .then(data => {
+                downloadCount = 0;
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = '0';
+                }
+                console.log('Counter reset globally:', data);
+                alert('Counter reset to 0 globally! Now test on both devices.');
+            })
+            .catch(error => {
+                console.log('Global reset failed, trying alternative...', error);
+                
+                // Try alternative service
+                fetch(`${COUNTER_SERVICE}/set/${COUNTER_NAMESPACE}/total?value=0`)
+                    .then(response => response.json())
+                    .then(data => {
+                        downloadCount = 0;
+                        if (downloadCountElement) {
+                            downloadCountElement.textContent = '0';
+                        }
+                        console.log('Counter reset via alternative:', data);
+                        alert('Counter reset to 0 via alternative service!');
+                    })
+                    .catch(altError => {
+                        console.log('All services failed, resetting locally');
+                        downloadCount = 0;
+                        if (downloadCountElement) {
+                            downloadCountElement.textContent = '0';
+                        }
+                        alert('Counter reset locally to 0. Global services may be down.');
+                    });
+            });
     };
     
     // Make reset function available globally for console access
