@@ -74,43 +74,85 @@ document.addEventListener('DOMContentLoaded', function() {
     let downloadCount = 0;
     const downloadCountElement = document.getElementById('download-count');
     
-    // Fetch download count from external service
+    // Use a more reliable counter service
+    const COUNTER_KEY = 'desktoppet.app.downloads';
+    const COUNTER_NAMESPACE = 'desktoppet';
+    
+    // Fetch download count from reliable service
     async function fetchDownloadCount() {
         try {
-            // Using a simple counter service
-            const response = await fetch('https://api.countapi.xyz/get/desktoppet.app/downloads');
-            const data = await response.json();
-            downloadCount = data.value || 0;
-            if (downloadCountElement) {
-                downloadCountElement.textContent = downloadCount;
+            // Try the primary countapi service
+            const response = await fetch(`https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`);
+            if (response.ok) {
+                const data = await response.json();
+                downloadCount = data.value || 0;
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = downloadCount.toLocaleString();
+                }
+                console.log('Download count loaded from API:', downloadCount);
+                return;
             }
         } catch (error) {
-            console.log('Using fallback counter');
-            // Fallback to localStorage if service fails
-            downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
-            if (downloadCountElement) {
-                downloadCountElement.textContent = downloadCount;
+            console.log('Primary API failed:', error);
+        }
+        
+        // Try alternative service
+        try {
+            const response = await fetch(`https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/total`);
+            if (response.ok) {
+                const data = await response.json();
+                downloadCount = data.value || 0;
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = downloadCount.toLocaleString();
+                }
+                console.log('Download count loaded from backup API:', downloadCount);
+                return;
             }
+        } catch (error) {
+            console.log('Backup API failed:', error);
+        }
+        
+        // If all APIs fail, use localStorage as fallback
+        console.log('All APIs failed, using localStorage fallback');
+        downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
+        if (downloadCountElement) {
+            downloadCountElement.textContent = downloadCount.toLocaleString();
         }
     }
     
     function incrementDownloadCount() {
-        // Increment counter on external service
-        fetch('https://api.countapi.xyz/hit/desktoppet.app/downloads')
+        // Increment on the primary service
+        fetch(`https://api.countapi.xyz/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`)
             .then(response => response.json())
             .then(data => {
                 downloadCount = data.value || downloadCount + 1;
                 if (downloadCountElement) {
-                    downloadCountElement.textContent = downloadCount;
+                    downloadCountElement.textContent = downloadCount.toLocaleString();
                 }
+                console.log('Download count incremented:', downloadCount);
             })
             .catch(error => {
-                // Fallback to localStorage
-                downloadCount++;
-                localStorage.setItem('downloadCount', downloadCount.toString());
-                if (downloadCountElement) {
-                    downloadCountElement.textContent = downloadCount;
-                }
+                console.log('Primary increment failed, trying backup');
+                
+                // Try backup service
+                fetch(`https://api.countapi.xyz/hit/${COUNTER_NAMESPACE}/total`)
+                    .then(response => response.json())
+                    .then(data => {
+                        downloadCount = data.value || downloadCount + 1;
+                        if (downloadCountElement) {
+                            downloadCountElement.textContent = downloadCount.toLocaleString();
+                        }
+                        console.log('Download count incremented via backup:', downloadCount);
+                    })
+                    .catch(backupError => {
+                        // Final fallback to localStorage
+                        console.log('All services failed, using localStorage');
+                        downloadCount++;
+                        localStorage.setItem('downloadCount', downloadCount.toString());
+                        if (downloadCountElement) {
+                            downloadCountElement.textContent = downloadCount.toLocaleString();
+                        }
+                    });
             });
     }
 
@@ -123,15 +165,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (downloadWindows) {
         downloadWindows.addEventListener('click', function(e) {
+            console.log('Windows download clicked');
             incrementDownloadCount();
         });
     }
     
     if (downloadMacos) {
         downloadMacos.addEventListener('click', function(e) {
+            console.log('macOS download clicked');
             incrementDownloadCount();
         });
     }
+    
 
     // Enhanced pixelated cat animation in hero section
     const pixelCat = document.getElementById('pixel-cat');
