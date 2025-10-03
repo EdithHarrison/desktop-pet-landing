@@ -179,22 +179,20 @@
                     <h3>Windows</h3>
                     <p>Windows 10/11 (64-bit)</p>
                     <div class="download-info">
-                        <span class="file-size">~95 MB</span>
-                        <span class="file-format">ZIP Archive</span>
+                        <span class="file-size">~50-80 MB</span>
+                        <span class="file-format">EXE Installer</span>
                     </div>
-                    <button class="btn btn-download" id="download-windows" onclick="downloadWindows()">
+                    <a href="https://github.com/EdithHarrison/desktop-pet-landing/raw/main/DesktopPet_Windows.exe" class="btn btn-download" id="download-windows">
                         <i class="fas fa-download"></i>
                         Download for Windows
-                    </button>
+                    </a>
                     <div class="installation-instructions">
                         <h4>Installation Instructions:</h4>
                         <ol>
-                            <li>Download the ZIP file above</li>
-                            <li>Right-click the ZIP file → "Extract All"</li>
-                            <li>Open the extracted folder</li>
-                            <li><strong>Important:</strong> Right-click <strong>DesktopPet.exe</strong> → "Properties"</li>
+                            <li>Download the EXE file above</li>
+                            <li><strong>Important:</strong> Right-click <strong>DesktopPet_Windows.exe</strong> → "Properties"</li>
                             <li>Check "Unblock" at the bottom of the General tab, then click "OK"</li>
-                            <li>Now double-click <strong>DesktopPet.exe</strong> to run</li>
+                            <li>Now double-click <strong>DesktopPet_Windows.exe</strong> to run</li>
                             <li>If you still see a security warning:</li>
                             <ul>
                                 <li>If <strong>"Cancel"</strong> doesn't work, press <strong>Alt+F4</strong> to close the dialog</li>
@@ -450,20 +448,6 @@
         </div>
     </footer>
 
-    <script>
-        function downloadWindows() {
-            // Create a direct download link and click it
-            const link = document.createElement('a');
-            link.href = 'https://github.com/EdithHarrison/desktop-pet-landing/raw/main/DesktopPet_Windows.zip';
-            link.download = 'DesktopPet_Windows.zip';
-            link.target = '_blank';
-            
-            // Add to DOM, click, and remove immediately
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
