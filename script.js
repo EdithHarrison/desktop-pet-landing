@@ -74,42 +74,29 @@ document.addEventListener('DOMContentLoaded', function() {
     let downloadCount = 0;
     const downloadCountElement = document.getElementById('download-count');
     
-    // Use a simple, reliable counter service
-    const COUNTER_SERVICE = 'https://api.countapi.xyz';
+    // Use the reliable counterapi.dev service
+    const COUNTER_SERVICE = 'https://api.counterapi.dev/v1';
     const COUNTER_NAMESPACE = 'desktoppet';
     const COUNTER_KEY = 'downloads';
     
     // Fetch download count from global service
     async function fetchDownloadCount() {
-        console.log('Loading download count from global service...');
+        console.log('Loading download count from counterapi.dev...');
         
         try {
-            const response = await fetch(`${COUNTER_SERVICE}/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`);
+            const response = await fetch(`${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/`);
             
             if (response.ok) {
                 const data = await response.json();
                 downloadCount = data.value || 0;
-                console.log('Download count loaded from global service:', downloadCount);
+                console.log('Download count loaded from counterapi.dev:', downloadCount);
             } else {
                 throw new Error(`Service error: ${response.status}`);
             }
         } catch (error) {
-            console.log('Global service failed, trying alternative...', error);
-            
-            // Try alternative service
-            try {
-                const response = await fetch(`${COUNTER_SERVICE}/get/${COUNTER_NAMESPACE}/total`);
-                if (response.ok) {
-                    const data = await response.json();
-                    downloadCount = data.value || 0;
-                    console.log('Download count loaded from alternative service:', downloadCount);
-                } else {
-                    throw new Error('Alternative service also failed');
-                }
-            } catch (altError) {
-                console.log('All services failed, using localStorage fallback');
-                downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
-            }
+            console.log('CounterAPI.dev failed, using localStorage fallback:', error);
+            // Fallback to localStorage
+            downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
         }
         
         if (downloadCountElement) {
@@ -120,38 +107,37 @@ document.addEventListener('DOMContentLoaded', function() {
     function incrementDownloadCount() {
         console.log('Incrementing download count...');
         
-        // Try to increment on global service
-        fetch(`${COUNTER_SERVICE}/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`)
-            .then(response => response.json())
-            .then(data => {
-                downloadCount = data.value || downloadCount + 1;
+        // Increment local count immediately for better UX
+        downloadCount++;
+        localStorage.setItem('downloadCount', downloadCount.toString());
+        
+        if (downloadCountElement) {
+            downloadCountElement.textContent = downloadCount.toLocaleString();
+        }
+        
+        console.log('Download count incremented locally to:', downloadCount);
+        
+        // Update global counter
+        updateGlobalCounter();
+    }
+    
+    // Update global counter
+    async function updateGlobalCounter() {
+        try {
+            const response = await fetch(`${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/up`);
+            if (response.ok) {
+                const data = await response.json();
+                downloadCount = data.value || downloadCount;
                 if (downloadCountElement) {
                     downloadCountElement.textContent = downloadCount.toLocaleString();
                 }
-                console.log('Download count incremented globally:', downloadCount);
-            })
-            .catch(error => {
-                console.log('Global increment failed, trying alternative...', error);
-                
-                // Try alternative service
-                fetch(`${COUNTER_SERVICE}/hit/${COUNTER_NAMESPACE}/total`)
-                    .then(response => response.json())
-                    .then(data => {
-                        downloadCount = data.value || downloadCount + 1;
-                        if (downloadCountElement) {
-                            downloadCountElement.textContent = downloadCount.toLocaleString();
-                        }
-                        console.log('Download count incremented via alternative:', downloadCount);
-                    })
-                    .catch(altError => {
-                        console.log('All services failed, using localStorage fallback');
-                        downloadCount++;
-                        localStorage.setItem('downloadCount', downloadCount.toString());
-                        if (downloadCountElement) {
-                            downloadCountElement.textContent = downloadCount.toLocaleString();
-                        }
-                    });
-            });
+                console.log('Download count updated globally via counterapi.dev:', downloadCount);
+            } else {
+                console.log('Global update failed, using local count only');
+            }
+        } catch (error) {
+            console.log('Global update failed:', error);
+        }
     }
 
     // Load initial count
