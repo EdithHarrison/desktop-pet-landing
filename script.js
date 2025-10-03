@@ -85,13 +85,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             const response = await fetch(`${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/`);
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
             
             if (response.ok) {
                 const data = await response.json();
+                console.log('Response data:', data);
                 downloadCount = data.count || 0;
                 console.log('Download count loaded from counterapi.dev:', downloadCount);
             } else {
-                throw new Error(`Service error: ${response.status}`);
+                const errorText = await response.text();
+                console.log('Error response:', errorText);
+                throw new Error(`Service error: ${response.status} - ${errorText}`);
             }
         } catch (error) {
             console.log('CounterAPI.dev failed:', error);
@@ -101,14 +106,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
+            console.log('Displayed count:', downloadCountElement.textContent);
         }
     }
     
     function incrementDownloadCount() {
         console.log('Incrementing download count...');
         
-        // Update global counter directly
+        // Update global counter directly and wait for it
         updateGlobalCounter();
+        
+        // Add a small delay to ensure API call completes before any redirect
+        setTimeout(() => {
+            console.log('Download count increment completed');
+        }, 100);
     }
     
     // Update global counter
@@ -140,14 +151,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (downloadWindows) {
         downloadWindows.addEventListener('click', function(e) {
             console.log('Windows download clicked');
+            e.preventDefault(); // Prevent immediate navigation
             incrementDownloadCount();
+            
+            // Start download after a short delay to ensure API call completes
+            setTimeout(() => {
+                window.location.href = downloadWindows.href;
+            }, 200);
         });
     }
     
     if (downloadMacos) {
         downloadMacos.addEventListener('click', function(e) {
             console.log('macOS download clicked');
+            e.preventDefault(); // Prevent immediate navigation
             incrementDownloadCount();
+            
+            // Start download after a short delay to ensure API call completes
+            setTimeout(() => {
+                window.location.href = downloadMacos.href;
+            }, 200);
         });
     }
     
