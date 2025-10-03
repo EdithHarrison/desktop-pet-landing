@@ -75,22 +75,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadCountElement = document.getElementById('download-count');
     
     // Use a more reliable counter service
-    const COUNTER_KEY = 'desktoppet.app.downloads';
+    const COUNTER_KEY = 'downloads';
     const COUNTER_NAMESPACE = 'desktoppet';
     
     // Fetch download count from reliable service
     async function fetchDownloadCount() {
+        console.log('Fetching download count from:', `https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`);
+        
         try {
             // Try the primary countapi service
             const response = await fetch(`https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`);
+            console.log('API Response status:', response.status);
+            
             if (response.ok) {
                 const data = await response.json();
+                console.log('API Response data:', data);
                 downloadCount = data.value || 0;
                 if (downloadCountElement) {
                     downloadCountElement.textContent = downloadCount.toLocaleString();
                 }
                 console.log('Download count loaded from API:', downloadCount);
                 return;
+            } else {
+                console.log('API Response not OK:', response.status, response.statusText);
             }
         } catch (error) {
             console.log('Primary API failed:', error);
