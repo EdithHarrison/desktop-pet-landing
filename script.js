@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (response.ok) {
                 const data = await response.json();
-                downloadCount = data.value || 0;
+                downloadCount = data.count || 0;
                 console.log('Download count loaded from counterapi.dev:', downloadCount);
             } else {
                 throw new Error(`Service error: ${response.status}`);
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(`${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/up`);
             if (response.ok) {
                 const data = await response.json();
-                downloadCount = data.value || downloadCount;
+                downloadCount = data.count || downloadCount;
                 if (downloadCountElement) {
                     downloadCountElement.textContent = downloadCount.toLocaleString();
                 }
