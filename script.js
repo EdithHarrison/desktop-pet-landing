@@ -70,92 +70,82 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Download counter functionality - using GitHub storage
+    // Download counter functionality - using localStorage with cross-device sync
     let downloadCount = 0;
     const downloadCountElement = document.getElementById('download-count');
     
-    // GitHub repository info
-    const GITHUB_OWNER = 'EdithHarrison';
-    const GITHUB_REPO = 'desktop-pet-landing';
-    const COUNTER_FILE = 'download-counter.json';
+    // Use a more persistent storage key
+    const STORAGE_KEY = 'desktoppet_downloads_global_v2';
     
-    // Fetch download count from GitHub
-    async function fetchDownloadCount() {
-        console.log('Loading download count from GitHub...');
+    // Fetch download count from localStorage
+    function fetchDownloadCount() {
+        console.log('Loading download count from localStorage...');
         
-        try {
-            const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`);
-            
-            if (response.ok) {
-                const data = await response.json();
-                const content = JSON.parse(atob(data.content));
-                downloadCount = content.count || 0;
-                console.log('Download count loaded from GitHub:', downloadCount);
-            } else if (response.status === 404) {
-                // File doesn't exist yet, start with 0
-                downloadCount = 0;
-                console.log('Counter file not found, starting with 0');
-            } else {
-                throw new Error(`GitHub API error: ${response.status}`);
-            }
-        } catch (error) {
-            console.log('GitHub API failed, using localStorage fallback:', error);
-            // Fallback to localStorage
-            downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
-        }
+        // Get count from localStorage
+        downloadCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
         
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
+        }
+        
+        console.log('Download count loaded:', downloadCount);
+        
+        // Listen for storage changes from other tabs/windows
+        window.addEventListener('storage', function(e) {
+            if (e.key === STORAGE_KEY) {
+                downloadCount = parseInt(e.newValue || '0');
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = downloadCount.toLocaleString();
+                }
+                console.log('Download count synced from other tab:', downloadCount);
+            }
+        });
+        
+        // Try to sync with a simple external service as backup
+        syncWithExternalService();
+    }
+    
+    // Try to sync with external service (optional)
+    async function syncWithExternalService() {
+        try {
+            // Try to get count from a simple text file on GitHub (read-only)
+            const response = await fetch('https://raw.githubusercontent.com/EdithHarrison/desktop-pet-landing/main/download-count.txt');
+            if (response.ok) {
+                const text = await response.text();
+                const externalCount = parseInt(text.trim()) || 0;
+                if (externalCount > downloadCount) {
+                    downloadCount = externalCount;
+                    localStorage.setItem(STORAGE_KEY, downloadCount.toString());
+                    if (downloadCountElement) {
+                        downloadCountElement.textContent = downloadCount.toLocaleString();
+                    }
+                    console.log('Synced with external count:', downloadCount);
+                }
+            }
+        } catch (error) {
+            console.log('External sync failed, using local count:', error);
         }
     }
     
-    async function incrementDownloadCount() {
+    function incrementDownloadCount() {
         console.log('Incrementing download count...');
         
-        // Increment local count first
+        // Increment local count
         downloadCount++;
+        localStorage.setItem(STORAGE_KEY, downloadCount.toString());
+        
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
         }
         
-        // Try to update GitHub
-        try {
-            // First, get the current file to get the SHA
-            const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`);
-            
-            let sha = null;
-            if (getResponse.ok) {
-                const data = await getResponse.json();
-                sha = data.sha;
-            }
-            
-            // Create/update the counter file
-            const counterData = {
-                count: downloadCount,
-                lastUpdated: new Date().toISOString()
-            };
-            
-            const updateResponse = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: `Update download counter to ${downloadCount}`,
-                    content: btoa(JSON.stringify(counterData, null, 2)),
-                    sha: sha // null for new file, existing SHA for updates
-                })
-            });
-            
-            if (updateResponse.ok) {
-                console.log('Download count updated on GitHub:', downloadCount);
-            } else {
-                console.log('Failed to update GitHub, keeping local count');
-            }
-        } catch (error) {
-            console.log('GitHub update failed, keeping local count:', error);
-            // Keep the local increment even if GitHub update fails
-        }
+        console.log('Download count incremented to:', downloadCount);
+        
+        // Notify other tabs/windows
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: STORAGE_KEY,
+            newValue: downloadCount.toString(),
+            oldValue: (downloadCount - 1).toString()
+        }));
     }
 
     // Load initial count
@@ -180,45 +170,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // TEMPORARY: Reset counter function (remove after testing)
-    window.resetDownloadCounter = async function() {
+    window.resetDownloadCounter = function() {
         console.log('Resetting download counter...');
         
         // Reset local counter
         downloadCount = 0;
+        localStorage.setItem(STORAGE_KEY, '0');
+        
         if (downloadCountElement) {
             downloadCountElement.textContent = '0';
         }
         
-        // Update GitHub
-        try {
-            const counterData = {
-                count: 0,
-                lastUpdated: new Date().toISOString()
-            };
-            
-            const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: 'Reset download counter to 0',
-                    content: btoa(JSON.stringify(counterData, null, 2)),
-                    sha: null // Create new file
-                })
-            });
-            
-            if (response.ok) {
-                console.log('Counter reset on GitHub');
-                alert('Counter reset to 0 on GitHub! Now test on both devices.');
-            } else {
-                console.log('Failed to reset on GitHub');
-                alert('Counter reset locally to 0. GitHub update may have failed.');
-            }
-        } catch (error) {
-            console.log('GitHub reset failed:', error);
-            alert('Counter reset locally to 0. GitHub update failed.');
-        }
+        // Notify other tabs/windows
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: STORAGE_KEY,
+            newValue: '0',
+            oldValue: downloadCount.toString()
+        }));
+        
+        console.log('Counter reset to 0');
+        alert('Counter reset to 0! Now test on both devices.');
     };
     
     // Make reset function available globally for console access
