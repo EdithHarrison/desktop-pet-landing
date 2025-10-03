@@ -70,20 +70,52 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Download counter functionality
-    let downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
+    // Download counter functionality - global counter
+    let downloadCount = 0;
     const downloadCountElement = document.getElementById('download-count');
-    if (downloadCountElement) {
-        downloadCountElement.textContent = downloadCount;
+    
+    // Fetch download count from external service
+    async function fetchDownloadCount() {
+        try {
+            // Using a simple counter service
+            const response = await fetch('https://api.countapi.xyz/get/desktoppet.app/downloads');
+            const data = await response.json();
+            downloadCount = data.value || 0;
+            if (downloadCountElement) {
+                downloadCountElement.textContent = downloadCount;
+            }
+        } catch (error) {
+            console.log('Using fallback counter');
+            // Fallback to localStorage if service fails
+            downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
+            if (downloadCountElement) {
+                downloadCountElement.textContent = downloadCount;
+            }
+        }
     }
     
     function incrementDownloadCount() {
-        downloadCount++;
-        localStorage.setItem('downloadCount', downloadCount.toString());
-        if (downloadCountElement) {
-            downloadCountElement.textContent = downloadCount;
-        }
+        // Increment counter on external service
+        fetch('https://api.countapi.xyz/hit/desktoppet.app/downloads')
+            .then(response => response.json())
+            .then(data => {
+                downloadCount = data.value || downloadCount + 1;
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = downloadCount;
+                }
+            })
+            .catch(error => {
+                // Fallback to localStorage
+                downloadCount++;
+                localStorage.setItem('downloadCount', downloadCount.toString());
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = downloadCount;
+                }
+            });
     }
+
+    // Load initial count
+    fetchDownloadCount();
     
     // Download button functionality
     const downloadWindows = document.getElementById('download-windows');
