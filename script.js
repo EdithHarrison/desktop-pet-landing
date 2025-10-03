@@ -94,9 +94,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error(`Service error: ${response.status}`);
             }
         } catch (error) {
-            console.log('CounterAPI.dev failed, using localStorage fallback:', error);
-            // Fallback to localStorage
-            downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
+            console.log('CounterAPI.dev failed:', error);
+            // No fallback - rely on global counter only
+            downloadCount = 0;
         }
         
         if (downloadCountElement) {
@@ -107,17 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function incrementDownloadCount() {
         console.log('Incrementing download count...');
         
-        // Increment local count immediately for better UX
-        downloadCount++;
-        localStorage.setItem('downloadCount', downloadCount.toString());
-        
-        if (downloadCountElement) {
-            downloadCountElement.textContent = downloadCount.toLocaleString();
-        }
-        
-        console.log('Download count incremented locally to:', downloadCount);
-        
-        // Update global counter
+        // Update global counter directly
         updateGlobalCounter();
     }
     
@@ -127,13 +117,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(`${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/up`);
             if (response.ok) {
                 const data = await response.json();
-                downloadCount = data.count || downloadCount;
+                downloadCount = data.count || 0;
                 if (downloadCountElement) {
                     downloadCountElement.textContent = downloadCount.toLocaleString();
                 }
                 console.log('Download count updated globally via counterapi.dev:', downloadCount);
             } else {
-                console.log('Global update failed, using local count only');
+                console.log('Global update failed');
             }
         } catch (error) {
             console.log('Global update failed:', error);
