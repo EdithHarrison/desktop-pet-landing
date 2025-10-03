@@ -81,49 +81,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fetch download count from global service
     async function fetchDownloadCount() {
-        console.log('Loading download count from counterapi.dev...');
-        
         try {
             const url = `${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/?t=${Date.now()}`;
-            console.log('Fetching URL:', url);
-            
             const response = await fetch(url);
-            console.log('Response status:', response.status);
-            console.log('Response ok:', response.ok);
             
             if (response.ok) {
                 const data = await response.json();
-                console.log('Response data:', data);
-                console.log('data.count:', data.count);
-                console.log('typeof data.count:', typeof data.count);
                 downloadCount = data.count || 0;
-                console.log('Download count loaded from counterapi.dev:', downloadCount);
             } else {
-                const errorText = await response.text();
-                console.log('Error response:', errorText);
-                throw new Error(`Service error: ${response.status} - ${errorText}`);
+                throw new Error(`Service error: ${response.status}`);
             }
         } catch (error) {
-            console.log('CounterAPI.dev failed:', error);
             // No fallback - rely on global counter only
             downloadCount = 0;
         }
         
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
-            console.log('Displayed count:', downloadCountElement.textContent);
         }
     }
     
     function incrementDownloadCount() {
-        console.log('Incrementing download count...');
-        
         // Update global counter directly and wait for it
         updateGlobalCounter();
         
         // Add a small delay to ensure API call completes before any redirect
         setTimeout(() => {
-            console.log('Download count increment completed');
+            // Download count increment completed
         }, 100);
     }
     
@@ -137,12 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (downloadCountElement) {
                     downloadCountElement.textContent = downloadCount.toLocaleString();
                 }
-                console.log('Download count updated globally via counterapi.dev:', downloadCount);
-            } else {
-                console.log('Global update failed');
             }
         } catch (error) {
-            console.log('Global update failed:', error);
+            // Silent fail - counter will update on next page load
         }
     }
 
@@ -155,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (downloadWindows) {
         downloadWindows.addEventListener('click', function(e) {
-            console.log('Windows download clicked');
             e.preventDefault(); // Prevent immediate navigation
             incrementDownloadCount();
             
@@ -168,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (downloadMacos) {
         downloadMacos.addEventListener('click', function(e) {
-            console.log('macOS download clicked');
             e.preventDefault(); // Prevent immediate navigation
             incrementDownloadCount();
             
