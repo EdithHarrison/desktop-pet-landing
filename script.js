@@ -70,97 +70,92 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Download counter functionality - global counter
+    // Download counter functionality - using GitHub storage
     let downloadCount = 0;
     const downloadCountElement = document.getElementById('download-count');
     
-    // Use a more reliable counter service
-    const COUNTER_KEY = 'downloads';
-    const COUNTER_NAMESPACE = 'desktoppet';
+    // GitHub repository info
+    const GITHUB_OWNER = 'EdithHarrison';
+    const GITHUB_REPO = 'desktop-pet-landing';
+    const COUNTER_FILE = 'download-counter.json';
     
-    // Fetch download count from reliable service
+    // Fetch download count from GitHub
     async function fetchDownloadCount() {
-        console.log('Fetching download count from:', `https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`);
+        console.log('Loading download count from GitHub...');
         
         try {
-            // Try the primary countapi service
-            const response = await fetch(`https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/${COUNTER_KEY}`);
-            console.log('API Response status:', response.status);
+            const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`);
             
             if (response.ok) {
                 const data = await response.json();
-                console.log('API Response data:', data);
-                downloadCount = data.value || 0;
-                if (downloadCountElement) {
-                    downloadCountElement.textContent = downloadCount.toLocaleString();
-                }
-                console.log('Download count loaded from API:', downloadCount);
-                return;
+                const content = JSON.parse(atob(data.content));
+                downloadCount = content.count || 0;
+                console.log('Download count loaded from GitHub:', downloadCount);
+            } else if (response.status === 404) {
+                // File doesn't exist yet, start with 0
+                downloadCount = 0;
+                console.log('Counter file not found, starting with 0');
             } else {
-                console.log('API Response not OK:', response.status, response.statusText);
+                throw new Error(`GitHub API error: ${response.status}`);
             }
         } catch (error) {
-            console.log('Primary API failed:', error);
+            console.log('GitHub API failed, using localStorage fallback:', error);
+            // Fallback to localStorage
+            downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
         }
         
-        // Try alternative service
-        try {
-            const response = await fetch(`https://api.countapi.xyz/get/${COUNTER_NAMESPACE}/total`);
-            if (response.ok) {
-                const data = await response.json();
-                downloadCount = data.value || 0;
-                if (downloadCountElement) {
-                    downloadCountElement.textContent = downloadCount.toLocaleString();
-                }
-                console.log('Download count loaded from backup API:', downloadCount);
-                return;
-            }
-        } catch (error) {
-            console.log('Backup API failed:', error);
-        }
-        
-        // If all APIs fail, use localStorage as fallback
-        console.log('All APIs failed, using localStorage fallback');
-        downloadCount = parseInt(localStorage.getItem('downloadCount') || '0');
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
         }
     }
     
-    function incrementDownloadCount() {
-        // Increment on the primary service
-        fetch(`https://api.countapi.xyz/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`)
-            .then(response => response.json())
-            .then(data => {
-                downloadCount = data.value || downloadCount + 1;
-                if (downloadCountElement) {
-                    downloadCountElement.textContent = downloadCount.toLocaleString();
-                }
-                console.log('Download count incremented:', downloadCount);
-            })
-            .catch(error => {
-                console.log('Primary increment failed, trying backup');
-                
-                // Try backup service
-                fetch(`https://api.countapi.xyz/hit/${COUNTER_NAMESPACE}/total`)
-                    .then(response => response.json())
-                    .then(data => {
-                        downloadCount = data.value || downloadCount + 1;
-                        if (downloadCountElement) {
-                            downloadCountElement.textContent = downloadCount.toLocaleString();
-                        }
-                        console.log('Download count incremented via backup:', downloadCount);
-                    })
-                    .catch(backupError => {
-                        // Final fallback to localStorage
-                        console.log('All services failed, using localStorage');
-                        downloadCount++;
-                        localStorage.setItem('downloadCount', downloadCount.toString());
-                        if (downloadCountElement) {
-                            downloadCountElement.textContent = downloadCount.toLocaleString();
-                        }
-                    });
+    async function incrementDownloadCount() {
+        console.log('Incrementing download count...');
+        
+        // Increment local count first
+        downloadCount++;
+        if (downloadCountElement) {
+            downloadCountElement.textContent = downloadCount.toLocaleString();
+        }
+        
+        // Try to update GitHub
+        try {
+            // First, get the current file to get the SHA
+            const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`);
+            
+            let sha = null;
+            if (getResponse.ok) {
+                const data = await getResponse.json();
+                sha = data.sha;
+            }
+            
+            // Create/update the counter file
+            const counterData = {
+                count: downloadCount,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            const updateResponse = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: `Update download counter to ${downloadCount}`,
+                    content: btoa(JSON.stringify(counterData, null, 2)),
+                    sha: sha // null for new file, existing SHA for updates
+                })
             });
+            
+            if (updateResponse.ok) {
+                console.log('Download count updated on GitHub:', downloadCount);
+            } else {
+                console.log('Failed to update GitHub, keeping local count');
+            }
+        } catch (error) {
+            console.log('GitHub update failed, keeping local count:', error);
+            // Keep the local increment even if GitHub update fails
+        }
     }
 
     // Load initial count
@@ -185,27 +180,63 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // TEMPORARY: Reset counter function (remove after testing)
-    window.resetDownloadCounter = function() {
+    window.resetDownloadCounter = async function() {
         console.log('Resetting download counter...');
-        fetch(`https://api.countapi.xyz/set/${COUNTER_NAMESPACE}/${COUNTER_KEY}?value=0`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Counter reset response:', data);
-                downloadCount = 0;
-                if (downloadCountElement) {
-                    downloadCountElement.textContent = '0';
-                }
-                alert('Counter reset to 0! Now test on both devices.');
-            })
-            .catch(error => {
-                console.log('Reset failed:', error);
-                alert('Reset failed. Check console for details.');
+        
+        // Reset local counter
+        downloadCount = 0;
+        if (downloadCountElement) {
+            downloadCountElement.textContent = '0';
+        }
+        
+        // Update GitHub
+        try {
+            const counterData = {
+                count: 0,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${COUNTER_FILE}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: 'Reset download counter to 0',
+                    content: btoa(JSON.stringify(counterData, null, 2)),
+                    sha: null // Create new file
+                })
             });
+            
+            if (response.ok) {
+                console.log('Counter reset on GitHub');
+                alert('Counter reset to 0 on GitHub! Now test on both devices.');
+            } else {
+                console.log('Failed to reset on GitHub');
+                alert('Counter reset locally to 0. GitHub update may have failed.');
+            }
+        } catch (error) {
+            console.log('GitHub reset failed:', error);
+            alert('Counter reset locally to 0. GitHub update failed.');
+        }
     };
     
     // Make reset function available globally for console access
     window.resetCounter = window.resetDownloadCounter;
-    console.log('Reset function available as: resetCounter() or resetDownloadCounter()');
+    
+    // Simple manual reset (no API)
+    window.manualReset = function() {
+        console.log('Manual reset - setting counter to 0 locally');
+        downloadCount = 0;
+        if (downloadCountElement) {
+            downloadCountElement.textContent = '0';
+        }
+        alert('Counter manually reset to 0! (Local only)');
+    };
+    
+    console.log('Reset functions available:');
+    console.log('- resetCounter() or resetDownloadCounter() - tries API reset');
+    console.log('- manualReset() - local reset only');
     
     // Add reset button for testing
     const resetButton = document.createElement('button');
