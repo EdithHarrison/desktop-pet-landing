@@ -84,13 +84,18 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Loading download count from counterapi.dev...');
         
         try {
-            const response = await fetch(`${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/`);
+            const url = `${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/?t=${Date.now()}`;
+            console.log('Fetching URL:', url);
+            
+            const response = await fetch(url);
             console.log('Response status:', response.status);
             console.log('Response ok:', response.ok);
             
             if (response.ok) {
                 const data = await response.json();
                 console.log('Response data:', data);
+                console.log('data.count:', data.count);
+                console.log('typeof data.count:', typeof data.count);
                 downloadCount = data.count || 0;
                 console.log('Download count loaded from counterapi.dev:', downloadCount);
             } else {
