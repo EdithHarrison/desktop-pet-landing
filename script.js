@@ -203,12 +203,18 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     };
     
+    // Make reset function available globally for console access
+    window.resetCounter = window.resetDownloadCounter;
+    console.log('Reset function available as: resetCounter() or resetDownloadCounter()');
+    
     // Add reset button for testing
     const resetButton = document.createElement('button');
-    resetButton.textContent = 'Reset Counter (Test)';
-    resetButton.style.cssText = 'position: fixed; top: 10px; right: 10px; z-index: 9999; padding: 8px 12px; background: #ff6b6b; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px;';
+    resetButton.textContent = 'RESET COUNTER';
+    resetButton.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 99999; padding: 12px 16px; background: #ff4444; color: white; border: 2px solid #fff; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);';
     resetButton.onclick = window.resetDownloadCounter;
     document.body.appendChild(resetButton);
+    
+    console.log('Reset button added to page');
     
 
     // Enhanced pixelated cat animation in hero section
