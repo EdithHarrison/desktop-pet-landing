@@ -184,6 +184,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // TEMPORARY: Reset counter function (remove after testing)
+    window.resetDownloadCounter = function() {
+        console.log('Resetting download counter...');
+        fetch(`https://api.countapi.xyz/set/${COUNTER_NAMESPACE}/${COUNTER_KEY}?value=0`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Counter reset response:', data);
+                downloadCount = 0;
+                if (downloadCountElement) {
+                    downloadCountElement.textContent = '0';
+                }
+                alert('Counter reset to 0! Now test on both devices.');
+            })
+            .catch(error => {
+                console.log('Reset failed:', error);
+                alert('Reset failed. Check console for details.');
+            });
+    };
+    
+    // Add reset button for testing
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset Counter (Test)';
+    resetButton.style.cssText = 'position: fixed; top: 10px; right: 10px; z-index: 9999; padding: 8px 12px; background: #ff6b6b; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px;';
+    resetButton.onclick = window.resetDownloadCounter;
+    document.body.appendChild(resetButton);
+    
 
     // Enhanced pixelated cat animation in hero section
     const pixelCat = document.getElementById('pixel-cat');
