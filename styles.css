@@ -826,6 +826,121 @@ button.btn-download {
     background: #f8fafc;
 }
 
+/* Feedback Section */
+.feedback {
+    padding: 6rem 0;
+    background: #fff;
+    border: 4px solid #000;
+    margin: 20px;
+}
+
+.feedback-description {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #64748b;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feedback-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.feedback-option {
+    background: #fff;
+    padding: 2.5rem;
+    border: 4px solid #000;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.feedback-option:hover {
+    background: #000;
+    color: #fff;
+    transform: translateY(-5px);
+}
+
+.feedback-icon {
+    width: 80px;
+    height: 80px;
+    background: #000;
+    border: 4px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.feedback-option:hover .feedback-icon {
+    background: #fff;
+    border-color: #fff;
+}
+
+.feedback-icon i {
+    font-size: 2rem;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.feedback-option:hover .feedback-icon i {
+    color: #000;
+}
+
+.feedback-option h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #000;
+    font-family: 'Courier New', monospace;
+    transition: color 0.3s ease;
+}
+
+.feedback-option:hover h3 {
+    color: #fff;
+}
+
+.feedback-option p {
+    color: #000;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+}
+
+.feedback-option:hover p {
+    color: #fff;
+}
+
+.feedback-note {
+    background: #f1f5f9;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.feedback-note i {
+    color: #6366f1;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.feedback-note p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.6;
+}
+
 .support-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1037,6 +1152,10 @@ button.btn-download {
         grid-template-columns: 1fr;
     }
     
+    .feedback-options {
+        grid-template-columns: 1fr;
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
@@ -1056,7 +1175,7 @@ button.btn-download {
         font-size: 2rem;
     }
     
-    .feature-card, .download-card, .support-card {
+    .feature-card, .download-card, .support-card, .feedback-option {
         padding: 1.5rem;
     }
 }

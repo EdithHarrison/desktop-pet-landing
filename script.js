@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe feature cards, screenshots, and support cards
-    const animatedElements = document.querySelectorAll('.feature-card, .screenshot-item, .support-card, .download-card');
+    // Observe feature cards, screenshots, support cards, and feedback options
+    const animatedElements = document.querySelectorAll('.feature-card, .screenshot-item, .support-card, .download-card, .feedback-option');
     
     animatedElements.forEach(el => {
         el.style.opacity = '0';
