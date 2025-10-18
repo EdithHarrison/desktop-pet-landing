@@ -726,6 +726,15 @@ body {
     transform: translateY(-2px);
 }
 
+.download-card small {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: block;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
 /* Make button look like link */
 button.btn-download {
     border: none;
@@ -1273,7 +1282,7 @@ button.btn-download {
 
 .version-description {
     font-size: 1.1rem;
-    color: #64748b;
+    color: #000000 !important;
     margin-bottom: 2rem;
     line-height: 1.6;
 }
@@ -1388,19 +1397,28 @@ button.btn-download {
 .subscribe-note {
     text-align: center;
     padding: 1rem;
-    background: #dbeafe;
-    border-radius: 8px;
-    border: 2px solid #3b82f6;
-    color: #1e40af;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    border: 2px solid #0ea5e9;
+    color: #000000 !important;
+    box-shadow: 0 4px 6px rgba(14, 165, 233, 0.1);
+    transition: all 0.3s ease;
+}
+
+.subscribe-note:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(14, 165, 233, 0.2);
 }
 
 .subscribe-note a {
     color: #1e40af;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+    transition: color 0.3s ease;
 }
 
 .subscribe-note a:hover {
+    color: #000000;
     text-decoration: underline;
 }
 
