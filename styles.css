@@ -565,7 +565,7 @@ body {
 }
 
 .instruction-steps a {
-    color: #6366f1;
+    color: #3b82f6;
     text-decoration: none;
     font-weight: 500;
 }
@@ -611,7 +611,7 @@ body {
 }
 
 .screenshot-placeholder:hover {
-    border-color: #6366f1;
+    border-color: #3b82f6;
     background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
 }
 
@@ -930,7 +930,7 @@ button.btn-download {
 }
 
 .feedback-note i {
-    color: #6366f1;
+    color: #3b82f6;
     font-size: 1.2rem;
     flex-shrink: 0;
 }
@@ -990,7 +990,7 @@ button.btn-download {
 }
 
 .support-link {
-    color: #6366f1;
+    color: #3b82f6;
     text-decoration: none;
     font-weight: 500;
     display: inline-flex;
@@ -1031,7 +1031,7 @@ button.btn-download {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: #6366f1;
+    color: #ffffff;
 }
 
 .footer-logo i {
@@ -1064,7 +1064,7 @@ button.btn-download {
 }
 
 .social-link:hover {
-    background: #6366f1;
+    background: #3b82f6;
     transform: translateY(-2px);
 }
 
@@ -1102,6 +1102,307 @@ button.btn-download {
 
 .footer-bottom i {
     color: #ef4444;
+}
+
+/* Updates Section */
+.updates {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-top: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+.updates-description {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #64748b;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.updates-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.update-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 4px solid #000;
+    text-align: center;
+    box-shadow: 0 4px 0 #000;
+    transition: all 0.3s ease;
+}
+
+.update-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 0 #000;
+}
+
+.update-icon {
+    font-size: 3rem;
+    color: #3b82f6;
+    margin-bottom: 1rem;
+}
+
+.update-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.update-card p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.subscription-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.email-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Courier New', monospace;
+    transition: border-color 0.3s ease;
+}
+
+.email-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.subscription-note {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* Version History Page */
+.version-history {
+    padding: 80px 0;
+    background: #fff;
+}
+
+.version-timeline {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.version-item {
+    background: #fff;
+    border: 4px solid #000;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 0 #000;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.version-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #000;
+}
+
+.version-item.future {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-color: #94a3b8;
+}
+
+.version-header {
+    background: #1e293b;
+    color: #fff;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.version-item.future .version-header {
+    background: #64748b;
+}
+
+.version-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+}
+
+.version-date {
+    font-size: 1rem;
+    color: #cbd5e1;
+    margin-left: auto;
+}
+
+.version-badge {
+    background: #10b981;
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.version-badge:contains("Planned") {
+    background: #f59e0b;
+}
+
+.version-content {
+    padding: 2rem;
+}
+
+.version-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.version-description {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.version-features {
+    margin-bottom: 2rem;
+}
+
+.version-features h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.version-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.version-features li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.version-features li:last-child {
+    border-bottom: none;
+}
+
+.version-downloads {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+}
+
+.version-downloads h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.download-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.version-requirements {
+    margin-bottom: 2rem;
+}
+
+.version-requirements h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.requirements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.requirement-item {
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+}
+
+.requirement-item strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.requirement-item ul {
+    list-style: none;
+    padding: 0;
+}
+
+.requirement-item li {
+    padding: 0.25rem 0;
+    color: #475569;
+}
+
+.version-notes {
+    background: #fef3c7;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid #f59e0b;
+}
+
+.version-notes h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #92400e;
+}
+
+.version-notes p {
+    color: #92400e;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.version-notes p:last-child {
+    margin-bottom: 0;
+}
+
+.subscribe-note {
+    text-align: center;
+    padding: 1rem;
+    background: #dbeafe;
+    border-radius: 8px;
+    border: 2px solid #3b82f6;
+    color: #1e40af;
+}
+
+.subscribe-note a {
+    color: #1e40af;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.subscribe-note a:hover {
+    text-decoration: underline;
 }
 
 /* Responsive Design */
@@ -1154,6 +1455,22 @@ button.btn-download {
     
     .feedback-options {
         grid-template-columns: 1fr;
+    }
+    
+    .updates-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .subscription-form {
+        flex-direction: column;
+    }
+    
+    .requirements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .download-links {
+        flex-direction: column;
     }
     
     .footer-content {

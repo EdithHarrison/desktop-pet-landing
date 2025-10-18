@@ -136,6 +136,32 @@ document.addEventListener('DOMContentLoaded', function() {
         currentYearElement.textContent = new Date().getFullYear();
     }
     
+    // Email subscription functionality
+    window.subscribeToUpdates = function() {
+        const emailInput = document.getElementById('email-input');
+        const email = emailInput.value.trim();
+        
+        if (!email) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+        
+        // For now, just show a success message
+        // In the future, this could integrate with an email service
+        alert('Thank you for subscribing! You\'ll be notified about new releases.');
+        emailInput.value = '';
+    };
+    
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
     // Download button functionality
     const downloadWindows = document.getElementById('download-windows');
     const downloadMacos = document.getElementById('download-macos');
