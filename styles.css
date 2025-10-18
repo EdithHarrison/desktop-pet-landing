@@ -1526,3 +1526,50 @@ button.btn-download {
         padding: 1.5rem;
     }
 }
+
+/* Subscription card (MailerLite) */
+.subscription-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.subscription-form .ml-form-embedContainer { width: 100%; }
+.subscription-form .ml-form-embedWrapper.embedForm {
+  max-width: 480px;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.subscription-form .ml-form-horizontalRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+@media (max-width: 640px) {
+  .subscription-form .ml-form-horizontalRow { grid-template-columns: 1fr; }
+}
+.subscription-form input[type="email"] {
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  width: 100%;
+  border: 2px solid #ccc;
+}
+.subscription-form button.primary {
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+.subscription-form button.primary:hover { opacity: 0.9; }
+
+/* Prevent ML's fixed width from overriding */
+#mlb2-32236243 .ml-form-embedWrapper.embedDefault,
+#mlb2-32236243 .ml-form-embedWrapper.embedPopup { width: 100% !important; }

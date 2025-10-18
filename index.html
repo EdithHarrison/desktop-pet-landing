@@ -233,22 +233,70 @@
                     </div>
                     <div class="newsletter-content">
                         <p>Get notified when we release new versions with exciting features and improvements!</p>
+
+                        <!-- Subscription form -->
                         <div class="subscription-form">
-                            <!-- MailerLite form will be embedded here -->
-                            <div id="ml-form-container">
-                                <input type="email" id="email-input" placeholder="Enter your email address" class="email-input">
-                                <button class="btn btn-primary" onclick="subscribeToUpdates()">
-                                    <i class="fas fa-envelope"></i>
-                                    Subscribe
-                                </button>
+                            <!-- MailerLite embed START -->
+                            <style>@import url("https://assets.mlcdn.com/fonts.css?version=1760701");</style>
+
+                            <div id="mlb2-32236243" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-32236243">
+                                <div class="ml-form-align-center">
+                                    <div class="ml-form-embedWrapper embedForm">
+                                        <div class="ml-form-embedBody ml-form-embedBodyHorizontal row-form">
+                                            <form class="ml-block-form"
+                                                  action="https://assets.mailerlite.com/jsonp/1865255/forms/168589648891741699/subscribe"
+                                                  method="post" target="_blank">
+                                                <div class="ml-form-formContent horozintalForm">
+                                                    <div class="ml-form-horizontalRow">
+                                                        <div class="ml-input-horizontal">
+                                                            <div class="horizontal-fields" style="width:100%;">
+                                                                <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                                                                    <input type="email"
+                                                                           class="form-control"
+                                                                           name="fields[email]"
+                                                                           placeholder="Enter your email"
+                                                                           autocomplete="email"
+                                                                           required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ml-button-horizontal primary">
+                                                            <button type="submit" class="primary">Subscribe</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" name="ml-submit" value="1">
+                                                <input type="hidden" name="anticsrf" value="true">
+                                            </form>
+                                        </div>
+
+                                        <div class="ml-form-successBody row-success" style="display:none">
+                                            <div class="ml-form-successContent">
+                                                <h4>Thank you!</h4>
+                                                <p><span style="color:#f8f9fa;">You have successfully joined our subscriber list.</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- Temporary fallback until MailerLite is set up -->
-                            <div id="temp-form" style="display: none;">
-                                <p style="color: #fbbf24; font-weight: bold;">Setting up email subscription...</p>
-                                <p style="font-size: 0.9rem; color: #94a3b8;">Please check back soon!</p>
-                            </div>
+
+                            <script>
+                                function ml_webform_success_32236243() {
+                                    var $ = window.ml_jQuery || window.jQuery;
+                                    if (!$) return;
+                                    $('.ml-subscribe-form-32236243 .row-success').show();
+                                    $('.ml-subscribe-form-32236243 .row-form').hide();
+                                }
+                            </script>
+                            <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024" defer></script>
+                            <script>fetch("https://assets.mailerlite.com/jsonp/1865255/forms/168589648891741699/takel")</script>
+                            <!-- MailerLite embed END -->
                         </div>
-                        <p class="subscription-note">We respect your privacy. No spam, just updates about Desktop Pet.</p>
+
+                        <p class="subscription-note">
+                            We respect your privacy. No spam, just updates about Desktop Pet.
+                        </p>
                     </div>
                 </div>
             </div>
