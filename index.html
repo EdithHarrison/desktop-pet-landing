@@ -1,202 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Desktop Pet - Your Digital Companion</title>
-  <meta name="description" content="A delightful desktop pet that helps you stay focused and productive. Available for Windows and macOS." />
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktop Pet - Your Digital Companion</title>
+    <meta name="description" content="A delightful desktop pet that helps you stay focused and productive. Available for Windows and macOS.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
-  <!-- Navigation -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <i class="fas fa-paw"></i>
-        <span>Desktop Pet</span>
-      </div>
-      <div class="nav-menu">
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#download" class="nav-link">Download</a>
-        <a href="#instructions" class="nav-link">Instructions</a>
-        <a href="#support" class="nav-link">Support</a>
-        <a href="#feedback" class="nav-link">Feedback</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-container">
-      <div class="hero-content">
-        <h1 class="hero-title">Meet Your New <span class="highlight">Digital Companion</span></h1>
-        <p class="hero-description">
-          A delightful desktop pet that helps you stay focused, productive, and happy while working.
-          Watch your pet roam around your screen, respond to your interactions, and remind you to take breaks.
-        </p>
-        <div class="hero-buttons">
-          <a href="#download" class="btn btn-primary"><i class="fab fa-windows"></i> Download for Windows</a>
-          <a href="#download" class="btn btn-secondary"><i class="fab fa-apple"></i> Download for macOS</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>Desktop Pet</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#download" class="nav-link">Download</a>
+                <a href="#instructions" class="nav-link">Instructions</a>
+                <a href="#support" class="nav-link">Support</a>
+                <a href="#feedback" class="nav-link">Feedback</a>
+            </div>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
-      </div>
-      <div class="hero-image">
-        <img src="assets/cat/idle/idle000.png" alt="Desktop Pet Cat" class="pixel-cat" />
-      </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- Features -->
-  <section id="features" class="features">
-    <div class="container">
-      <h2 class="section-title">Why Choose Desktop Pet?</h2>
-      <div class="features-grid">
-        <div class="feature-card"><i class="fas fa-heart feature-icon"></i><h3>Adorable Companions</h3><p>Choose from cute cats, dogs, and bunnies.</p></div>
-        <div class="feature-card"><i class="fas fa-clock feature-icon"></i><h3>Focus Timer</h3><p>Stay productive with built-in Pomodoro timer.</p></div>
-        <div class="feature-card"><i class="fas fa-robot feature-icon"></i><h3>AI Assistant</h3><p>Chat with your pet via text or voice using your own OpenAI key.</p></div>
-        <div class="feature-card"><i class="fas fa-bell feature-icon"></i><h3>Smart Reminders</h3><p>Get gentle reminders to take breaks and stay hydrated.</p></div>
-        <div class="feature-card"><i class="fas fa-volume-up feature-icon"></i><h3>Sound Effects</h3><p>Enjoy delightful sound effects and ambience.</p></div>
-        <div class="feature-card"><i class="fas fa-shield-alt feature-icon"></i><h3>Privacy First</h3><p>No tracking — everything stays on your device.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Download -->
-  <section id="download" class="download">
-    <div class="container">
-      <h2 class="section-title">Download Desktop Pet</h2>
-      <div class="download-cards">
-        <div class="download-card">
-          <i class="fab fa-windows platform-icon"></i>
-          <h3>Windows</h3>
-          <p>Windows 10/11 (64-bit)</p>
-          <a href="https://github.com/EdithHarrison/desktop-pet-landing/raw/main/desktop-pet-windows-zip_V1.1.zip" class="btn btn-download">
-            <i class="fas fa-download"></i> Download for Windows
-          </a>
-        </div>
-        <div class="download-card">
-          <i class="fab fa-apple platform-icon"></i>
-          <h3>macOS</h3>
-          <p>macOS 10.15 or later</p>
-          <a href="https://github.com/EdithHarrison/desktop-pet-landing/raw/main/DesktopPet_Installer_V1.1.dmg" class="btn btn-download">
-            <i class="fas fa-download"></i> Download for macOS
-          </a>
-        </div>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="newsletter-info">
-        <div class="newsletter-icon"><i class="fas fa-bell"></i></div>
-        <div class="newsletter-content">
-          <p>Get notified when new versions are released!</p>
-
-          <div class="subscription-form">
-            <style>@import url("https://assets.mlcdn.com/fonts.css?version=1760701");</style>
-            <div id="mlb2-32236243" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-32236243">
-              <div class="ml-form-align-center">
-                <div class="ml-form-embedWrapper embedForm">
-                  <div class="ml-form-embedBody ml-form-embedBodyHorizontal row-form">
-                    <form class="ml-block-form"
-                      action="https://assets.mailerlite.com/jsonp/1865255/forms/168589648891741699/subscribe"
-                      method="post" target="_blank">
-                      <div class="ml-form-formContent horozintalForm">
-                        <div class="ml-form-horizontalRow">
-                          <div class="ml-input-horizontal">
-                            <div class="horizontal-fields" style="width:100%;">
-                              <input type="email" class="form-control" name="fields[email]" placeholder="Enter your email" autocomplete="email" required />
-                            </div>
-                          </div>
-                          <div class="ml-button-horizontal primary">
-                            <button type="submit" class="primary">Subscribe</button>
-                          </div>
-                        </div>
-                      </div>
-                      <input type="hidden" name="ml-submit" value="1" />
-                      <input type="hidden" name="anticsrf" value="true" />
-                    </form>
-                  </div>
-                  <div class="ml-form-successBody row-success" style="display:none">
-                    <div class="ml-form-successContent">
-                      <h4>Thank you!</h4>
-                      <p><span style="color: #f8f9fa;">You have successfully joined our subscriber list.</span></p>
-                    </div>
-                  </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Meet Your New <span class="highlight">Digital Companion</span>
+                </h1>
+                <p class="hero-description">
+                    A delightful desktop pet that helps you stay focused, productive, and happy while working. 
+                    Watch your pet roam around your screen, respond to your interactions, and remind you to take breaks.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary">
+                        <i class="fab fa-windows"></i>
+                        Download for Windows
+                    </a>
+                    <a href="#download" class="btn btn-secondary">
+                        <i class="fab fa-apple"></i>
+                        Download for macOS
+                    </a>
                 </div>
-              </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="download-count">0</span>
+                        <span class="stat-label">Downloads</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">Free</span>
+                        <span class="stat-label">(Beta)</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Pet Type <span class="coming-soon-small">+2 Coming Soon</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="pet-preview">
+                    <div class="pet-character">
+                        <img src="assets/cat/idle/idle000.png" alt="Desktop Pet Cat" class="pixel-cat" id="pixel-cat">
+                    </div>
+                    <div class="pet-bubble pixel-bubble">
+                        <p>Hi! I'm your desktop pet! 🐱</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose Desktop Pet?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Adorable Companions</h3>
+                    <p>Choose from cute cats, dogs, and bunnies. Each pet has unique animations and personality traits.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Focus Timer</h3>
+                    <p>Built-in Pomodoro timer to help you stay focused and productive throughout your workday.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Assistant</h3>
+                    <p>Chat with your pet using voice or text! Ask questions, get reminders, or just have a conversation. Works with your own OpenAI API key.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Smart Reminders</h3>
+                    <p>Get gentle reminders to take breaks, stay hydrated, and maintain a healthy work-life balance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <h3>Sound Effects</h3>
+                    <p>Enjoy delightful sound effects and ambient audio that enhance your desktop experience.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>All data stays on your device. No internet required, no data collection, complete privacy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <h2 class="section-title">Download Desktop Pet</h2>
+            <p class="download-description">Choose your platform and start enjoying your digital companion today!</p>
+            
+            <div class="download-cards">
+                <div class="download-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <h3>Windows</h3>
+                    <p>Windows 10/11 (64-bit)</p>
+                    <div class="download-info">
+                        <span class="file-size">~150 MB</span>
+                        <span class="file-format">ZIP Archive</span>
+                    </div>
+                    <a href="https://github.com/EdithHarrison/desktop-pet-landing/raw/main/desktop-pet-windows-zip_V1.1.zip" class="btn btn-download" id="download-windows">
+                        <i class="fas fa-download"></i>
+                        Download for Windows
+                    </a>
+                    <small>v1.1.0 • Released October 18, 2025</small>
+                    <div class="installation-instructions">
+                        <h4>Installation Instructions:</h4>
+                        <ol>
+                            <li>Download and extract the ZIP file twice (nested structure)</li>
+                            <li>Open the final <strong>Desktop Pet</strong> folder</li>
+                            <li>Double-click <strong>Desktop Pet Application</strong></li>
+                            <li>When Windows shows security warning: <strong>"More info"</strong> → <strong>"Run anyway"</strong></li>
+                        </ol>
+                        <p><strong>Note:</strong> This app is not digitally signed but is completely safe to use. As an independent developer, I focus resources on features and improvements rather than expensive code signing certificates.</p>
+                    </div>
+                    <div class="download-requirements">
+                        <h4>System Requirements:</h4>
+                        <ul>
+                            <li>Windows 10 or later</li>
+                            <li>64-bit processor</li>
+                            <li>100 MB free disk space</li>
+                            <li>DirectX 11 compatible graphics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="download-card">
+                    <div class="platform-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3>macOS</h3>
+                    <p>macOS 10.15 or later</p>
+                    <div class="download-info">
+                        <span class="file-size">~162 MB</span>
+                        <span class="file-format">DMG Installer</span>
+                    </div>
+                    <a href="https://github.com/EdithHarrison/desktop-pet-landing/raw/main/DesktopPet_Installer_V1.1.dmg" class="btn btn-download" id="download-macos">
+                        <i class="fas fa-download"></i>
+                        Download for macOS
+                    </a>
+                    <small>v1.1.0 • Released October 18, 2025</small>
+                    <div class="installation-instructions">
+                        <h4>Installation Instructions:</h4>
+                        <ol>
+                            <li>Download and mount the DMG file</li>
+                            <li>Drag DesktopPet to Applications folder</li>
+                            <li>Open from Applications folder</li>
+                            <li>When blocked: <strong>"Close"</strong> → System Preferences → Privacy & Security → <strong>"Open Anyway"</strong></li>
+                        </ol>
+                        <p><strong>Note:</strong> This app is not digitally signed but is completely safe to use. As an independent developer, I focus resources on features and improvements rather than expensive code signing certificates.</p>
+                    </div>
+                    <div class="download-requirements">
+                        <h4>System Requirements:</h4>
+                        <ul>
+                            <li>macOS 10.15 (Catalina) or later</li>
+                            <li>Intel or Apple Silicon processor</li>
+                            <li>150 MB free disk space</li>
+                            <li>Metal-compatible graphics</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <script>
-              function ml_webform_success_32236243() {
-                var $ = window.ml_jQuery || window.jQuery;
-                if (!$) return;
-                $('.ml-subscribe-form-32236243 .row-success').show();
-                $('.ml-subscribe-form-32236243 .row-form').hide();
-              }
-            </script>
-            <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024" defer></script>
-            <script>fetch("https://assets.mailerlite.com/jsonp/1865255/forms/168589648891741699/takel")</script>
-          </div>
+            <!-- Version History and Newsletter -->
+            <div class="download-extras">
+                <div class="version-info">
+                    <div class="version-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="version-content">
+                        <p>Check out all the versions we've released and see what's new in each update.</p>
+                        <a href="versions.html" class="btn btn-secondary">
+                            <i class="fas fa-list"></i>
+                            View All Versions
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="newsletter-info">
+                    <div class="newsletter-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="newsletter-content">
+                        <p>Get notified when we release new versions with exciting features and improvements!</p>
+                        <div class="subscription-form">
+                            <!-- MailerLite form will be embedded here -->
+                            <div id="ml-form-container">
+                                <input type="email" id="email-input" placeholder="Enter your email address" class="email-input">
+                                <button class="btn btn-primary" onclick="subscribeToUpdates()">
+                                    <i class="fas fa-envelope"></i>
+                                    Subscribe
+                                </button>
+                            </div>
+                            <!-- Temporary fallback until MailerLite is set up -->
+                            <div id="temp-form" style="display: none;">
+                                <p style="color: #fbbf24; font-weight: bold;">Setting up email subscription...</p>
+                                <p style="font-size: 0.9rem; color: #94a3b8;">Please check back soon!</p>
+                            </div>
+                        </div>
+                        <p class="subscription-note">We respect your privacy. No spam, just updates about Desktop Pet.</p>
+                    </div>
+                </div>
+            </div>
 
-          <p class="subscription-note">We respect your privacy. No spam, just updates about Desktop Pet.</p>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; <span id="current-year"></span> Desktop Pet. Made for productivity and joy.</p>
-    </div>
-  </footer>
 
-  <!-- MailerLite Form Styling -->
-  <style>
-    .subscription-form {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .subscription-form .ml-form-embedContainer { width: 100%; }
-    .subscription-form .ml-form-embedWrapper.embedForm {
-      max-width: 480px;
-      width: 100%;
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-      padding: 0;
-    }
-    .subscription-form .ml-form-horizontalRow {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-    }
-    @media (max-width: 640px) {
-      .subscription-form .ml-form-horizontalRow { grid-template-columns: 1fr; }
-    }
-    .subscription-form input[type="email"] {
-      font-family: inherit;
-      font-size: 1rem;
-      border-radius: 10px;
-      padding: 0.75rem 0.85rem;
-      width: 100%;
-      border: 2px solid #ccc;
-    }
-    .subscription-form button.primary {
-      font-family: inherit;
-      font-size: 1rem;
-      border-radius: 10px;
-      padding: 0.75rem 0.85rem;
-      border: none;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-    }
-    .subscription-form button.primary:hover { opacity: 0.9; }
-  </style>
+    <!-- Instructions Section -->
+    <section id="instructions" class="instructions">
+        <div class="container">
+            <h2 class="section-title">How to Use Desktop Pet</h2>
+            <p class="instructions-description">Get started with your new AI-powered desktop companion!</p>
+            
+            <div class="instructions-grid">
+                <div class="instruction-card">
+                    <div class="instruction-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3>Set Up OpenAI API Key</h3>
+                    <div class="instruction-steps">
+                        <ol>
+                            <li>Go to <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI API Keys</a></li>
+                            <li>Sign up or log in to your OpenAI account</li>
+                            <li>Create a new API key</li>
+                            <li>Right-click on your desktop pet</li>
+                            <li>Select "Set OpenAI API Key..." from the menu</li>
+                            <li>Enter your API key and click OK</li>
+                        </ol>
+                    </div>
+                    <p class="instruction-note">Your API key is stored locally and never shared with us.</p>
+                </div>
 
-  <script src="script.js?v=3"></script>
+                <div class="instruction-card">
+                    <div class="instruction-icon">
+                        <i class="fas fa-mouse"></i>
+                    </div>
+                    <h3>Basic Controls</h3>
+                    <div class="instruction-steps">
+                        <ul>
+                            <li><strong>Right-click:</strong> Open the pet menu</li>
+                            <li><strong>Double-click:</strong> Interact with your pet</li>
+                            <li><strong>Click and drag:</strong> Move your pet around the screen</li>
+                            <li><strong>Press Tab:</strong> Place the pet at the desired spot</li>
+                            <li><strong>Assistant Mode:</strong> Right-click → "Assistant Mode" for AI chat</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="instruction-card">
+                    <div class="instruction-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Voice Commands</h3>
+                    <div class="instruction-steps">
+                        <ol>
+                            <li>Enable wake word detection in Voice Settings</li>
+                            <li>Say your wake word (default: "Hey Pet")</li>
+                            <li>Speak your request clearly</li>
+                            <li>Try commands like:
+                                <ul>
+                                    <li>"What's the weather in Miami?"</li>
+                                    <li>"Set a timer for 30 minutes"</li>
+                                    <li>"Remind me to call mom at 3pm"</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="instruction-card">
+                    <div class="instruction-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Settings & Customization</h3>
+                    <div class="instruction-steps">
+                        <ul>
+                            <li><strong>Volume Control:</strong> Mute, Low, Medium, High</li>
+                            <li><strong>Font Size:</strong> Small, Medium, Large</li>
+                            <li><strong>Time Format:</strong> 12-hour or 24-hour</li>
+                            <li><strong>Timezone:</strong> Choose your local timezone</li>
+                            <li><strong>Wake Word:</strong> Customize voice activation phrase</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="instruction-card">
+                    <div class="instruction-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Privacy & Security</h3>
+                    <div class="instruction-steps">
+                        <ul>
+                            <li>We do NOT collect, store, or send any data to external servers</li>
+                            <li>All settings and preferences are stored locally</li>
+                            <li>Your conversations are not saved permanently</li>
+                            <li>No personal information is collected or tracked</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="instruction-card">
+                    <div class="instruction-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Troubleshooting</h3>
+                    <div class="instruction-steps">
+                        <ul>
+                            <li><strong>App won't start:</strong> Check antivirus settings, allow in security preferences</li>
+                            <li><strong>AI chat not working:</strong> Verify OpenAI API key and internet connection</li>
+                            <li><strong>Voice commands not working:</strong> Check microphone permissions</li>
+                            <li><strong>Weather not working:</strong> Check internet connection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="support">
+        <div class="container">
+            <h2 class="section-title">Need Help?</h2>
+            <div class="support-grid">
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Documentation</h3>
+                    <p>Read our comprehensive guide to get the most out of Desktop Pet.</p>
+                    <a href="#instructions" class="support-link">View Documentation <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3>Report Issues</h3>
+                    <p>Found a bug or have a feature request? Use our feedback form for better tracking!</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank" class="support-link">Submit Feedback <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <h3>Send Feedback</h3>
+                    <p>Share your thoughts, suggestions, or report bugs through our feedback form.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank" class="support-link">Open Feedback Form <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback" class="feedback">
+        <div class="container">
+            <h2 class="section-title">Share Your Feedback</h2>
+            <p class="feedback-description">
+                Help us improve Desktop Pet! Your feedback is invaluable for making the app better for everyone.
+            </p>
+            <div class="feedback-options">
+                <div class="feedback-option">
+                    <div class="feedback-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3>Quick Feedback Form</h3>
+                    <p>Use our Google Form for structured feedback, bug reports, and feature requests.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i>
+                        Open Feedback Form
+                    </a>
+                </div>
+                <div class="feedback-option">
+                    <div class="feedback-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Direct Email</h3>
+                    <p>Prefer to send a direct email? We're here to help with any questions.</p>
+                    <a href="mailto:support@desktoppet.app" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i>
+                        Email Support
+                    </a>
+                </div>
+            </div>
+            <div class="feedback-note">
+                <i class="fas fa-info-circle"></i>
+                <p><strong>Note:</strong> We recommend using the feedback form as it helps us organize and prioritize your requests more effectively.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-paw"></i>
+                        <span>Desktop Pet</span>
+                    </div>
+                    <p>Bringing joy and productivity to your desktop experience.</p>
+                    <div class="social-links">
+                        <a href="mailto:support@desktoppet.app" class="social-link" title="Email Support"><i class="fas fa-envelope"></i></a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank" class="social-link" title="Send Feedback"><i class="fas fa-comment"></i></a>
+                        <a href="mailto:support@desktoppet.app" class="social-link" title="Press Inquiries"><i class="fas fa-newspaper"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#instructions">Instructions</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank">Request Feature</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#support">Help Center</a></li>
+                        <li><a href="#instructions">Documentation</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank">Report Bug</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank">Send Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="license.html">License</a></li>
+                        <li><a href="mailto:support@desktoppet.app">Legal Inquiries</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Desktop Pet. Made for productivity and joy.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js?v=3"></script>
 </body>
 </html>
