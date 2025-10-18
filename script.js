@@ -130,6 +130,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load initial count
     fetchDownloadCount();
     
+    // Set current year in footer
+    const currentYearElement = document.getElementById('current-year');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+    
     // Download button functionality
     const downloadWindows = document.getElementById('download-windows');
     const downloadMacos = document.getElementById('download-macos');
