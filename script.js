@@ -151,10 +151,22 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // For now, just show a success message
-        // In the future, this could integrate with an email service
-        alert('Thank you for subscribing! You\'ll be notified about new releases.');
-        emailInput.value = '';
+        // Show loading state
+        const button = document.querySelector('.btn-primary');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+        button.disabled = true;
+        
+        // For now, show a temporary message until MailerLite is set up
+        setTimeout(() => {
+            alert('Thank you for your interest! Email subscription is being set up. Please check back soon or contact us at support@desktoppet.app');
+            emailInput.value = '';
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }, 1500);
+        
+        // TODO: Replace with actual MailerLite form integration
+        // This will be updated once you complete the MailerLite setup
     };
     
     function isValidEmail(email) {

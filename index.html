@@ -234,11 +234,19 @@
                     <div class="newsletter-content">
                         <p>Get notified when we release new versions with exciting features and improvements!</p>
                         <div class="subscription-form">
-                            <input type="email" id="email-input" placeholder="Enter your email address" class="email-input">
-                            <button class="btn btn-primary" onclick="subscribeToUpdates()">
-                                <i class="fas fa-envelope"></i>
-                                Subscribe
-                            </button>
+                            <!-- MailerLite form will be embedded here -->
+                            <div id="ml-form-container">
+                                <input type="email" id="email-input" placeholder="Enter your email address" class="email-input">
+                                <button class="btn btn-primary" onclick="subscribeToUpdates()">
+                                    <i class="fas fa-envelope"></i>
+                                    Subscribe
+                                </button>
+                            </div>
+                            <!-- Temporary fallback until MailerLite is set up -->
+                            <div id="temp-form" style="display: none;">
+                                <p style="color: #fbbf24; font-weight: bold;">Setting up email subscription...</p>
+                                <p style="font-size: 0.9rem; color: #94a3b8;">Please check back soon!</p>
+                            </div>
                         </div>
                         <p class="subscription-note">We respect your privacy. No spam, just updates about Desktop Pet.</p>
                     </div>
