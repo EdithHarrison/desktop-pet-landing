@@ -1570,6 +1570,40 @@ button.btn-download {
 }
 .subscription-form button.primary:hover { opacity: 0.9; }
 
+/* Footer Donation Section */
+.footer-donation-section {
+    margin-top: 1rem;
+}
+
+.footer-donation-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.footer-donation-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.footer-donation-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.footer-donation-link i {
+    font-size: 0.9rem;
+}
+
 /* Prevent ML's fixed width from overriding */
 #mlb2-32236243 .ml-form-embedWrapper.embedDefault,
 #mlb2-32236243 .ml-form-embedWrapper.embedPopup { width: 100% !important; }
