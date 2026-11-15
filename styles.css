@@ -1332,6 +1332,13 @@ button.btn-download {
     flex-wrap: wrap;
 }
 
+.windows-extract-note {
+    margin: 1rem 0 0;
+    color: #334155;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
 .version-requirements {
     margin-bottom: 2rem;
 }
