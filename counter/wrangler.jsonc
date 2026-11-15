@@ -1,0 +1,12 @@
+{
+  "name": "desktop-pet-downloads",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-14",
+  "workers_dev": true,
+  "kv_namespaces": [
+    {
+      "binding": "DOWNLOADS",
+      "id": "a251a88cd3e64618a6feee82e757aa2d"
+    }
+  ]
+}
