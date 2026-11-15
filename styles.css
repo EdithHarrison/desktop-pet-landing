@@ -1332,9 +1332,9 @@ button.btn-download {
     flex-wrap: wrap;
 }
 
-.windows-extract-note {
+.version-downloads .windows-extract-note {
     margin: 1rem 0 0;
-    color: #334155;
+    color: #1e293b;
     font-size: 0.95rem;
     line-height: 1.5;
 }
