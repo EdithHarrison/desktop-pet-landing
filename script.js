@@ -70,65 +70,68 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Download counter functionality - using a simple global counter service
-    let downloadCount = 0;
+    // downloads.json keeps the last known total. When "api" is set, the live
+    // count comes from the Cloudflare counter and download clicks add 1.
+    const DOWNLOAD_COUNT_URL = 'downloads.json';
+    const DOWNLOAD_COUNT_FALLBACK = 20673;
     const downloadCountElement = document.getElementById('download-count');
-    
-    // Use the reliable counterapi.dev service
-    const COUNTER_SERVICE = 'https://api.counterapi.dev/v1';
-    const COUNTER_NAMESPACE = 'desktoppet';
-    const COUNTER_KEY = 'downloads';
-    
-    // Fetch download count from global service
-    async function fetchDownloadCount() {
+    let downloadCounterApi = '';
+
+    async function loadDownloadCounter() {
+        let downloadCount = DOWNLOAD_COUNT_FALLBACK;
+
         try {
-            const url = `${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/?t=${Date.now()}`;
-            const response = await fetch(url);
-            
+            const response = await fetch(`${DOWNLOAD_COUNT_URL}?t=${Date.now()}`);
             if (response.ok) {
                 const data = await response.json();
-                downloadCount = data.count || 0;
-            } else {
-                throw new Error(`Service error: ${response.status}`);
+                const count = Number(data.count);
+                if (Number.isFinite(count)) {
+                    downloadCount = count;
+                }
+                if (typeof data.api === 'string') {
+                    downloadCounterApi = data.api.trim().replace(/\/$/, '');
+                }
             }
         } catch (error) {
-            // No fallback - rely on global counter only
-            downloadCount = 0;
+            // Keep the seeded total if the file cannot be loaded.
         }
-        
+
+        if (downloadCounterApi) {
+            try {
+                const response = await fetch(downloadCounterApi);
+                if (response.ok) {
+                    const data = await response.json();
+                    const count = Number(data.count);
+                    if (Number.isFinite(count)) {
+                        downloadCount = count;
+                    }
+                }
+            } catch (error) {
+                // Show the saved total when the live counter cannot be reached.
+            }
+        }
+
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
         }
     }
-    
-    function incrementDownloadCount() {
-        // Update global counter directly and wait for it
-        updateGlobalCounter();
-        
-        // Add a small delay to ensure API call completes before any redirect
-        setTimeout(() => {
-            // Download count increment completed
-        }, 100);
-    }
-    
-    // Update global counter
-    async function updateGlobalCounter() {
-        try {
-            const response = await fetch(`${COUNTER_SERVICE}/${COUNTER_NAMESPACE}/${COUNTER_KEY}/up`);
-            if (response.ok) {
-                const data = await response.json();
-                downloadCount = data.count || 0;
-                if (downloadCountElement) {
-                    downloadCountElement.textContent = downloadCount.toLocaleString();
-                }
-            }
-        } catch (error) {
-            // Silent fail - counter will update on next page load
+
+    function recordDownloadClick() {
+        if (!downloadCounterApi) {
+            return;
         }
+        const url = `${downloadCounterApi}/hit`;
+        if (typeof navigator.sendBeacon === 'function' && navigator.sendBeacon(url)) {
+            return;
+        }
+        fetch(url, { method: 'POST', mode: 'cors', keepalive: true });
     }
 
-    // Load initial count
-    fetchDownloadCount();
+    document.querySelectorAll('a[href$=".zip"], a[href$=".dmg"]').forEach((link) => {
+        link.addEventListener('click', recordDownloadClick);
+    });
+
+    loadDownloadCounter();
     
     // Set current year in footer
     const currentYearElement = document.getElementById('current-year');
@@ -174,36 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return emailRegex.test(email);
     }
     
-    // Download button functionality
-    const downloadWindows = document.getElementById('download-windows');
-    const downloadMacos = document.getElementById('download-macos');
-    
-    if (downloadWindows) {
-        downloadWindows.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent immediate navigation
-            incrementDownloadCount();
-            
-            // Start download after a short delay to ensure API call completes
-            setTimeout(() => {
-                window.location.href = downloadWindows.href;
-            }, 200);
-        });
-    }
-    
-    if (downloadMacos) {
-        downloadMacos.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent immediate navigation
-            incrementDownloadCount();
-            
-            // Start download after a short delay to ensure API call completes
-            setTimeout(() => {
-                window.location.href = downloadMacos.href;
-            }, 200);
-        });
-    }
-    
-    
-
     // Enhanced pixelated cat animation in hero section
     const pixelCat = document.getElementById('pixel-cat');
     if (pixelCat) {
