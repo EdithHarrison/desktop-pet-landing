@@ -1162,7 +1162,7 @@ button.btn-download {
 }
 
 
-.version-content p,
+.download-extras .version-content p,
 .newsletter-content p {
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 0.8rem;
@@ -1334,7 +1334,7 @@ button.btn-download {
 
 .version-downloads .windows-extract-note {
     margin: 1rem 0 0;
-    color: #1e293b;
+    color: #1e293b !important;
     font-size: 0.95rem;
     line-height: 1.5;
 }
