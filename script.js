@@ -80,19 +80,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // downloads.json keeps the last known total. When "api" is set, the live
     // count comes from the Cloudflare counter and download clicks add 1.
     const DOWNLOAD_COUNT_URL = 'downloads.json';
-    const DOWNLOAD_COUNT_FALLBACK = 20673;
+    const DOWNLOAD_COUNT_FALLBACK = 20687;
+    const DOWNLOAD_COUNT_KEY = 'desktop-pet-download-count';
     const downloadCountElement = document.getElementById('download-count');
     let downloadCounterApi = '';
 
+    function savedDownloadCount() {
+        try {
+            const saved = Number(localStorage.getItem(DOWNLOAD_COUNT_KEY));
+            return Number.isFinite(saved) ? saved : null;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function showDownloadCount(count) {
+        if (!downloadCountElement || !Number.isFinite(count)) {
+            return;
+        }
+        const text = count.toLocaleString();
+        if (downloadCountElement.textContent !== text) {
+            downloadCountElement.textContent = text;
+        }
+        downloadCountElement.classList.remove('is-pending');
+        try {
+            localStorage.setItem(DOWNLOAD_COUNT_KEY, String(count));
+        } catch (error) {
+            // The visible total still updates when storage is unavailable.
+        }
+    }
+
+    showDownloadCount(savedDownloadCount());
+
     async function loadDownloadCounter() {
-        let downloadCount = DOWNLOAD_COUNT_FALLBACK;
+        let downloadCount = savedDownloadCount();
 
         try {
             const response = await fetch(`${DOWNLOAD_COUNT_URL}?t=${Date.now()}`);
             if (response.ok) {
                 const data = await response.json();
                 const count = Number(data.count);
-                if (Number.isFinite(count)) {
+                if (downloadCount == null && Number.isFinite(count)) {
                     downloadCount = count;
                 }
                 if (typeof data.api === 'string') {
@@ -100,8 +128,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         } catch (error) {
-            // Keep the seeded total if the file cannot be loaded.
+            // Keep the saved total if the file cannot be loaded.
         }
+
+        const announcementPromise = loadAnnouncement();
 
         if (downloadCounterApi) {
             try {
@@ -118,11 +148,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        if (downloadCountElement) {
-            downloadCountElement.textContent = downloadCount.toLocaleString();
-        }
-
-        loadAnnouncement();
+        showDownloadCount(downloadCount == null ? DOWNLOAD_COUNT_FALLBACK : downloadCount);
+        await announcementPromise;
     }
 
     function safeAnnouncementHref(href) {
@@ -246,33 +273,58 @@ document.addEventListener('DOMContentLoaded', function() {
         status.textContent = message || '';
     }
 
+    function feedTime(data) {
+        const time = Date.parse(data && data.updatedAt);
+        return Number.isFinite(time) ? time : 0;
+    }
+
+    function renderFeed(list, data) {
+        const announcements = Array.isArray(data && data.announcements) ? data.announcements : [];
+        const cards = announcements
+            .slice()
+            .sort((a, b) => String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')))
+            .map(renderAnnouncement)
+            .filter((card) => card.querySelector('h3, p, h4'));
+        if (!cards.length) {
+            return false;
+        }
+        list.replaceChildren(...cards);
+        setAnnouncementStatus('');
+        return true;
+    }
+
+    async function readJson(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                return null;
+            }
+            return await response.json();
+        } catch (error) {
+            return null;
+        }
+    }
+
     async function loadAnnouncement() {
         const list = document.getElementById('announcement-list');
         if (!list) {
             return;
         }
-        if (!downloadCounterApi) {
-            setAnnouncementStatus('The latest note could not be loaded.');
-            return;
+
+        const localPromise = readJson('counter/announcements.json');
+        const remotePromise = downloadCounterApi
+            ? readJson(`${downloadCounterApi}/announcement`)
+            : Promise.resolve(null);
+
+        const local = await localPromise;
+        let shownTime = local && renderFeed(list, local) ? feedTime(local) : 0;
+
+        const remote = await remotePromise;
+        if (remote && feedTime(remote) > shownTime && renderFeed(list, remote)) {
+            shownTime = feedTime(remote);
         }
 
-        try {
-            const response = await fetch(`${downloadCounterApi}/announcement`);
-            if (!response.ok) {
-                setAnnouncementStatus('The latest note could not be loaded.');
-                return;
-            }
-            const data = await response.json();
-            const announcements = Array.isArray(data.announcements) ? data.announcements : [];
-            const cards = announcements
-                .slice()
-                .sort((a, b) => String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')))
-                .map(renderAnnouncement)
-                .filter((card) => card.querySelector('h3, p, h4'));
-
-            list.replaceChildren(...cards);
-            setAnnouncementStatus(cards.length ? '' : 'There are no announcements yet.');
-        } catch (error) {
+        if (!shownTime) {
             setAnnouncementStatus('The latest note could not be loaded.');
         }
     }
