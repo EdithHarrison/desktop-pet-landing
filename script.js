@@ -1,23 +1,26 @@
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for anchor links
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 70; // Account for fixed navbar
-                
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
+    // Smooth scrolling for anchor links, including ones added after load.
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a[href^="#"]');
+        if (!link) {
+            return;
+        }
+
+        const targetId = link.getAttribute('href');
+        if (!targetId || targetId === '#') {
+            return;
+        }
+
+        const targetSection = document.querySelector(targetId);
+        if (!targetSection || targetSection.hidden) {
+            return;
+        }
+
+        e.preventDefault();
+        window.scrollTo({
+            top: targetSection.offsetTop - 70,
+            behavior: 'smooth'
         });
     });
 
@@ -113,6 +116,160 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (downloadCountElement) {
             downloadCountElement.textContent = downloadCount.toLocaleString();
+        }
+
+        loadAnnouncement();
+    }
+
+    function safeAnnouncementHref(href) {
+        if (typeof href !== 'string') {
+            return '';
+        }
+
+        const value = href.trim();
+        if (value.startsWith('#') && !value.startsWith('#//') && !value.includes('\\')) {
+            return value;
+        }
+        if (/^[a-z0-9][a-z0-9._-]*\.html(?:#[A-Za-z0-9_-]+)?$/i.test(value)) {
+            return value;
+        }
+        if (value.startsWith('mailto:') && !/[\s]/.test(value)) {
+            return value;
+        }
+
+        try {
+            const url = new URL(value);
+            if (url.protocol === 'https:') {
+                return url.href;
+            }
+        } catch (error) {
+            return '';
+        }
+
+        return '';
+    }
+
+    function addText(parent, tag, text, className) {
+        if (typeof text !== 'string' || !text.trim()) {
+            return;
+        }
+        const element = document.createElement(tag);
+        if (className) {
+            element.className = className;
+        }
+        element.textContent = text;
+        parent.appendChild(element);
+    }
+
+    function renderAnnouncement(announcement) {
+        const card = document.createElement('article');
+        card.className = 'announcement-card';
+
+        addText(card, 'p', announcement.published, 'announcement-date');
+        addText(card, 'h3', announcement.title);
+
+        const blocks = Array.isArray(announcement.blocks) ? announcement.blocks : [];
+        blocks.forEach((block) => {
+            if (!block || typeof block.type !== 'string') {
+                return;
+            }
+
+            if (block.type === 'heading') {
+                addText(card, 'h4', block.text);
+                return;
+            }
+
+            if (block.type === 'paragraph') {
+                addText(card, 'p', block.text);
+                return;
+            }
+
+            if (block.type !== 'list' || !Array.isArray(block.items)) {
+                return;
+            }
+
+            const list = document.createElement('ul');
+            list.className = 'announcement-points';
+            block.items.forEach((item) => {
+                if (!item) {
+                    return;
+                }
+                const point = document.createElement('li');
+                addText(point, 'strong', item.title);
+                addText(point, 'p', item.text);
+                addText(point, 'p', item.note, 'announcement-note');
+                if (point.childNodes.length) {
+                    list.appendChild(point);
+                }
+            });
+            if (list.childNodes.length) {
+                card.appendChild(list);
+            }
+        });
+
+        const actions = Array.isArray(announcement.actions) ? announcement.actions : [];
+        const actionRow = document.createElement('div');
+        actionRow.className = 'announcement-actions';
+        actions.forEach((action, index) => {
+            const href = safeAnnouncementHref(action && action.href);
+            const label = action && typeof action.label === 'string' ? action.label.trim() : '';
+            if (!href || !label) {
+                return;
+            }
+            const link = document.createElement('a');
+            link.className = index === 0 ? 'btn btn-primary' : 'btn btn-secondary';
+            link.href = href;
+            if (href.startsWith('https://')) {
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+            }
+            link.textContent = label;
+            actionRow.appendChild(link);
+        });
+        if (actionRow.childNodes.length) {
+            card.appendChild(actionRow);
+        }
+
+        return card;
+    }
+
+    function setAnnouncementStatus(message) {
+        const status = document.getElementById('announcement-status');
+        if (!status) {
+            return;
+        }
+        status.hidden = !message;
+        status.textContent = message || '';
+    }
+
+    async function loadAnnouncement() {
+        const list = document.getElementById('announcement-list');
+        if (!list) {
+            return;
+        }
+        if (!downloadCounterApi) {
+            setAnnouncementStatus('The latest note could not be loaded.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${downloadCounterApi}/announcement`);
+            if (!response.ok) {
+                setAnnouncementStatus('The latest note could not be loaded.');
+                return;
+            }
+            const data = await response.json();
+            const announcements = Array.isArray(data.announcements) ? data.announcements : [];
+            const cards = announcements
+                .slice()
+                .sort((a, b) => String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')))
+                .map(renderAnnouncement)
+                .filter((card) => card.querySelector('h3, p, h4'));
+
+            list.replaceChildren(...cards);
+            setAnnouncementStatus(cards.length ? '' : 'There are no announcements yet.');
+        } catch (error) {
+            setAnnouncementStatus('The latest note could not be loaded.');
         }
     }
 

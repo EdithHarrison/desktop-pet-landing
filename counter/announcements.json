@@ -1,0 +1,105 @@
+{
+  "updatedAt": "2026-11-16T15:45:00.000Z",
+  "announcements": [
+    {
+      "id": "2026-11-15-return",
+      "publishedAt": "2026-11-15",
+      "published": "November 15, 2026",
+      "title": "Desktop Pet is back",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Hi everyone!"
+        },
+        {
+          "type": "paragraph",
+          "text": "It’s been almost a year since the last Desktop Pet update. Here’s what has been happening behind the scenes."
+        },
+        {
+          "type": "heading",
+          "text": "A Little Life Update"
+        },
+        {
+          "type": "paragraph",
+          "text": "Earlier this year I landed a new job in the tech industry! It has been exciting, but learning a new role kept me busy, so I had less time for Desktop Pet than I wanted."
+        },
+        {
+          "type": "paragraph",
+          "text": "I never forgot about this little project. I was surprised to see people still subscribing and waiting for updates, and that motivated me to pick up where I left off."
+        },
+        {
+          "type": "heading",
+          "text": "What’s New in Desktop Pet?"
+        },
+        {
+          "type": "paragraph",
+          "text": "I’ve been working on making Desktop Pet easier to use, more customizable, and even smarter!"
+        },
+        {
+          "type": "paragraph",
+          "text": "Here’s what’s included in the latest update:"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "title": "Simplified Windows Installation",
+              "text": "No more extracting ZIP files! Desktop Pet now offers a more straightforward installation process for Windows users, making it easier to get started."
+            },
+            {
+              "title": "Uninstall Directly from the App",
+              "text": "You can now uninstall Desktop Pet directly from within the application. The uninstall process removes the app from your computer, including its files in the original download location.",
+              "note": "Important: Uninstalling Desktop Pet also permanently deletes your account information, saved settings, and previously granted permissions. If you reinstall the app later, you’ll need to set everything up again."
+            },
+            {
+              "title": "Day & Night Themes",
+              "text": "Menus and dialogs now support light and dark appearances for a more comfortable experience."
+            },
+            {
+              "title": "Improved AI Assistant",
+              "text": "I’ve made improvements to the AI assistant to enhance your experience interacting with your desktop companion."
+            },
+            {
+              "title": "More AI Providers",
+              "text": "Alongside the existing OpenAI integration, Desktop Pet now also supports Claude and Grok, giving you more flexibility to choose your preferred AI provider."
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "What’s Next?"
+        },
+        {
+          "type": "paragraph",
+          "text": "And this time, I don’t plan on disappearing for another year!"
+        },
+        {
+          "type": "paragraph",
+          "text": "I’m committed to ongoing development and more regular updates. I can’t promise a fixed release schedule yet, but I’ll keep you posted on new features and what’s coming next."
+        },
+        {
+          "type": "heading",
+          "text": "Check Out the Latest Update"
+        },
+        {
+          "type": "paragraph",
+          "text": "I’d love your feedback! Found an issue, have an idea, or want a feature? Send a note from the site."
+        },
+        {
+          "type": "paragraph",
+          "text": "Thank you for sticking around and supporting Desktop Pet. There’s more to come!"
+        }
+      ],
+      "actions": [
+        {
+          "label": "See the latest version",
+          "href": "index.html#download"
+        },
+        {
+          "label": "Send feedback",
+          "href": "index.html#feedback"
+        }
+      ]
+    }
+  ]
+}
