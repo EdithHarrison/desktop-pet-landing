@@ -1,4 +1,7 @@
+import bundledAnnouncements from "./announcements.json" with { type: "json" };
+
 const START_COUNT = 20673;
+const ANNOUNCEMENTS_KEY = "announcements";
 
 const ALLOWED_ORIGINS = new Set([
   "https://desktoppet.app",
@@ -46,6 +49,31 @@ async function currentCount(downloads) {
   return count;
 }
 
+function feedTime(data) {
+  const time = Date.parse(data && data.updatedAt);
+  return Number.isFinite(time) ? time : 0;
+}
+
+function isAnnouncementFeed(data) {
+  return Boolean(data) && Array.isArray(data.announcements);
+}
+
+async function currentAnnouncements(downloads) {
+  let stored = null;
+  try {
+    stored = await downloads.get(ANNOUNCEMENTS_KEY, "json");
+  } catch (error) {
+    stored = null;
+  }
+
+  if (!isAnnouncementFeed(stored) || feedTime(bundledAnnouncements) > feedTime(stored)) {
+    await downloads.put(ANNOUNCEMENTS_KEY, JSON.stringify(bundledAnnouncements));
+    return bundledAnnouncements;
+  }
+
+  return stored;
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin");
@@ -58,6 +86,11 @@ export default {
     if (request.method === "GET" && pathname === "/") {
       const count = await currentCount(env.DOWNLOADS);
       return jsonResponse({ count }, 200, origin);
+    }
+
+    if (request.method === "GET" && pathname === "/announcement") {
+      const feed = await currentAnnouncements(env.DOWNLOADS);
+      return jsonResponse(feed, 200, origin);
     }
 
     if (request.method === "POST" && pathname === "/hit") {

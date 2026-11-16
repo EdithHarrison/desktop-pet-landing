@@ -301,6 +301,102 @@ body {
     50% { transform: translateY(-20px); }
 }
 
+/* News page */
+.news-page {
+    padding: 6rem 0 4rem;
+    background: #fff;
+    border: 4px solid #000;
+    margin: 90px 20px 20px;
+}
+
+.news-intro {
+    text-align: center;
+    max-width: 640px;
+    margin: -1.5rem auto 2.5rem;
+}
+
+.announcement-status {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.announcement-list {
+    display: grid;
+    gap: 2rem;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.announcement-card {
+    border: 4px solid #000;
+    padding: 2.5rem;
+    background: #fff;
+}
+
+.announcement-date {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.25rem 0.6rem;
+    border: 3px solid #000;
+    background: #fbbf24;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.announcement-card h3 {
+    font-family: 'Courier New', monospace;
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.announcement-card h4 {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    margin: 1.75rem 0 0.75rem;
+}
+
+.announcement-card p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+.announcement-points {
+    list-style: disc;
+    margin: 0.5rem 0 1rem 1.25rem;
+    padding-left: 1rem;
+}
+
+.announcement-points li {
+    margin-bottom: 0.85rem;
+    line-height: 1.7;
+}
+
+.announcement-points strong {
+    font-family: 'Courier New', monospace;
+}
+
+.announcement-points strong::after {
+    content: " ";
+}
+
+.announcement-points li p {
+    display: inline;
+    margin: 0;
+}
+
+.announcement-points li .announcement-note {
+    display: block;
+    margin-top: 0.35rem;
+}
+
+.announcement-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
 /* Features Section */
 .features {
     padding: 6rem 0;
@@ -1467,6 +1563,24 @@ button.btn-download {
     
     .features-grid {
         grid-template-columns: 1fr;
+    }
+
+    .news-page {
+        margin-top: 90px;
+        padding: 4rem 0 2rem;
+    }
+
+    .announcement-card {
+        padding: 1.5rem;
+    }
+
+    .announcement-actions {
+        flex-direction: column;
+    }
+
+    .announcement-actions .btn {
+        width: 100%;
+        max-width: none;
     }
     
     .download-cards {

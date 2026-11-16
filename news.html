@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Desktop Pet News - Release Announcements</title>
+    <meta name="title" content="Desktop Pet News - Release Announcements">
+    <meta name="description" content="Release notes and updates from Desktop Pet. Read what is new, what changed, and what is coming next.">
+    <meta name="author" content="Desktop Pet">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://desktoppet.app/news.html">
+    <meta property="og:title" content="Desktop Pet News - Release Announcements">
+    <meta property="og:description" content="Release notes and updates from Desktop Pet.">
+    <meta property="og:image" content="https://desktoppet.app/assets/app_icon.png">
+    <meta property="og:site_name" content="Desktop Pet">
+    <meta property="og:locale" content="en_US">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://desktoppet.app/news.html">
+    <meta property="twitter:title" content="Desktop Pet News - Release Announcements">
+    <meta property="twitter:description" content="Release notes and updates from Desktop Pet.">
+    <meta property="twitter:image" content="https://desktoppet.app/assets/app_icon.png">
+
+    <link rel="canonical" href="https://desktoppet.app/news.html">
+    <link rel="icon" type="image/png" href="assets/app_icon.png">
+    <link rel="apple-touch-icon" href="assets/app_icon.png">
+    <link rel="stylesheet" href="styles.css?v=20261116c">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>Desktop Pet</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="news.html" class="nav-link">News</a>
+                <a href="index.html#download" class="nav-link">Download</a>
+                <a href="index.html#instructions" class="nav-link">Instructions</a>
+                <a href="index.html#support" class="nav-link">Support</a>
+            </div>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="announcement" class="news-page">
+        <div class="container">
+            <h1 class="section-title">Latest News</h1>
+            <p class="news-intro">Notes and release announcements from Desktop Pet.</p>
+            <p id="announcement-status" class="announcement-status">Loading the latest note...</p>
+            <div id="announcement-list" class="announcement-list"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-paw"></i>
+                        <span>Desktop Pet</span>
+                    </div>
+                    <p>Enjoying Desktop Pet? Consider supporting its development!</p>
+                    <div class="footer-donation-section">
+                        <div class="footer-donation-links">
+                            <a href="https://www.patreon.com/c/DesktopPetApp" target="_blank" class="footer-donation-link">
+                                <i class="fab fa-patreon"></i>
+                                Patreon
+                            </a>
+                            <a href="https://ko-fi.com/desktoppetapp" target="_blank" class="footer-donation-link">
+                                <i class="fas fa-coffee"></i>
+                                Ko-fi
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="index.html#download">Download</a></li>
+                        <li><a href="index.html#instructions">Instructions</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank">Request Feature</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="index.html#support">Help Center</a></li>
+                        <li><a href="index.html#instructions">Documentation</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank">Report Bug</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSf2PR9yN-ETCj7rlxYmj4YIKMzT3AwbSIagq6MIA33tsbxzRg/viewform?usp=dialog" target="_blank">Send Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="license.html">License</a></li>
+                        <li><a href="mailto:support@desktoppet.app">Legal Inquiries</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Desktop Pet. Made for productivity and joy.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js?v=7"></script>
+</body>
+</html>
