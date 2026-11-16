@@ -11,10 +11,10 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:8765",
 ]);
 
-function responseHeaders(origin) {
+function responseHeaders(origin, cacheControl = "no-store") {
   const headers = {
     "content-type": "application/json; charset=utf-8",
-    "cache-control": "no-store",
+    "cache-control": cacheControl,
   };
 
   if (origin && ALLOWED_ORIGINS.has(origin)) {
@@ -26,11 +26,28 @@ function responseHeaders(origin) {
   return headers;
 }
 
-function jsonResponse(body, status, origin) {
+function jsonResponse(body, status, origin, cacheControl) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: responseHeaders(origin),
+    headers: responseHeaders(origin, cacheControl),
   });
+}
+
+let announcementStored = false;
+
+async function storeAnnouncements(downloads) {
+  if (announcementStored) {
+    return;
+  }
+  announcementStored = true;
+  try {
+    const stored = await downloads.get(ANNOUNCEMENTS_KEY, "json");
+    if (!isAnnouncementFeed(stored) || feedTime(bundledAnnouncements) > feedTime(stored)) {
+      await downloads.put(ANNOUNCEMENTS_KEY, JSON.stringify(bundledAnnouncements));
+    }
+  } catch (error) {
+    announcementStored = false;
+  }
 }
 
 async function currentCount(downloads) {
@@ -58,24 +75,8 @@ function isAnnouncementFeed(data) {
   return Boolean(data) && Array.isArray(data.announcements);
 }
 
-async function currentAnnouncements(downloads) {
-  let stored = null;
-  try {
-    stored = await downloads.get(ANNOUNCEMENTS_KEY, "json");
-  } catch (error) {
-    stored = null;
-  }
-
-  if (!isAnnouncementFeed(stored) || feedTime(bundledAnnouncements) > feedTime(stored)) {
-    await downloads.put(ANNOUNCEMENTS_KEY, JSON.stringify(bundledAnnouncements));
-    return bundledAnnouncements;
-  }
-
-  return stored;
-}
-
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get("Origin");
     const { pathname } = new URL(request.url);
 
@@ -89,8 +90,8 @@ export default {
     }
 
     if (request.method === "GET" && pathname === "/announcement") {
-      const feed = await currentAnnouncements(env.DOWNLOADS);
-      return jsonResponse(feed, 200, origin);
+      ctx.waitUntil(storeAnnouncements(env.DOWNLOADS));
+      return jsonResponse(bundledAnnouncements, 200, origin, "public, max-age=300");
     }
 
     if (request.method === "POST" && pathname === "/hit") {

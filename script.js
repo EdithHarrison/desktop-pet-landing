@@ -35,18 +35,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Navbar background on scroll
+    // Navbar background on scroll. Update only when the state changes.
     const navbar = document.querySelector('.navbar');
-    
+    let navbarScrolled = false;
+
     window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = 'none';
+        if (!navbar) {
+            return;
         }
-    });
+        const scrolled = window.scrollY > 50;
+        if (scrolled === navbarScrolled) {
+            return;
+        }
+        navbarScrolled = scrolled;
+        navbar.style.background = scrolled ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.95)';
+        navbar.style.boxShadow = scrolled ? '0 2px 20px rgba(0, 0, 0, 0.1)' : 'none';
+    }, { passive: true });
 
     // Animate elements on scroll
     const observerOptions = {
@@ -415,16 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1000);
         }, 5000);
     }
-
-    // Parallax effect for hero section
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            const rate = scrolled * -0.5;
-            hero.style.transform = `translateY(${rate}px)`;
-        }
-    });
 
     // Add hover effects to buttons
     const buttons = document.querySelectorAll('.btn');
