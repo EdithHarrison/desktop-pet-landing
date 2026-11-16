@@ -311,20 +311,29 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const localPromise = readJson('counter/announcements.json');
-        const remotePromise = downloadCounterApi
-            ? readJson(`${downloadCounterApi}/announcement`)
-            : Promise.resolve(null);
-
-        const local = await localPromise;
-        let shownTime = local && renderFeed(list, local) ? feedTime(local) : 0;
-
-        const remote = await remotePromise;
-        if (remote && feedTime(remote) > shownTime && renderFeed(list, remote)) {
-            shownTime = feedTime(remote);
+        let shownTime = feedTime({ updatedAt: list.dataset.updated });
+        const alreadyVisible = Boolean(list.querySelector('.announcement-card'));
+        if (!alreadyVisible) {
+            const local = await readJson('counter/announcements.json');
+            if (local && renderFeed(list, local)) {
+                shownTime = feedTime(local);
+                if (local.updatedAt) {
+                    list.dataset.updated = local.updatedAt;
+                }
+            }
         }
 
-        if (!shownTime) {
+        const remote = downloadCounterApi
+            ? await readJson(`${downloadCounterApi}/announcement`)
+            : null;
+        if (remote && feedTime(remote) > shownTime && renderFeed(list, remote)) {
+            shownTime = feedTime(remote);
+            if (remote.updatedAt) {
+                list.dataset.updated = remote.updatedAt;
+            }
+        }
+
+        if (!shownTime && !list.querySelector('.announcement-card')) {
             setAnnouncementStatus('The latest note could not be loaded.');
         }
     }
