@@ -11,9 +11,6 @@ body {
     color: #000;
     background: #fff;
     overflow-x: hidden;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
 }
 
 .container {
@@ -764,7 +761,6 @@ body {
 
 .download-card {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 2.5rem;
@@ -1226,7 +1222,6 @@ button.btn-download {
 .version-info,
 .newsletter-info {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 1rem 4rem;
