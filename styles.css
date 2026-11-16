@@ -224,6 +224,14 @@ body {
     color: #fbbf24;
 }
 
+#download-count {
+    min-height: 1.2em;
+}
+
+#download-count.is-pending {
+    visibility: hidden;
+}
+
 .stat-label {
     font-size: 0.9rem;
     color: #000;
